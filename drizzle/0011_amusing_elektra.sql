@@ -1,0 +1,1 @@
+ALTER TABLE `curriculum_subjects` MODIFY COLUMN `subject_id` bigint unsigned;

@@ -1,0 +1,1 @@
+ALTER TABLE `subjects` ADD `semester` tinyint NOT NULL;

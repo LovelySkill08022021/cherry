@@ -1,0 +1,1 @@
+ALTER TABLE `subjects` MODIFY COLUMN `units` tinyint NOT NULL;
