@@ -1,1 +1,0 @@
-ALTER TABLE `subjects` ADD `units` tinyint NOT NULL;

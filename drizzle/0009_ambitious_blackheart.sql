@@ -1,1 +1,0 @@
-ALTER TABLE `subjects` MODIFY COLUMN `units` tinyint;

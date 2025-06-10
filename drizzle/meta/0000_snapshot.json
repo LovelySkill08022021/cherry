@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "b45cb43e-fc17-4d33-9416-5a88b888a701",
+  "id": "635fdfbb-1aea-4f18-a95a-276859a3a71c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "curricula": {
@@ -14,8 +14,8 @@
           "notNull": true,
           "autoincrement": true
         },
-        "name": {
-          "name": "name",
+        "label": {
+          "name": "label",
           "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
@@ -27,6 +27,96 @@
       "compositePrimaryKeys": {
         "curricula_id": {
           "name": "curricula_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "curriculum_students": {
+      "name": "curriculum_students",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "student_id": {
+          "name": "student_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "curriculum_id": {
+          "name": "curriculum_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "curriculum_students_id": {
+          "name": "curriculum_students_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "curriculum_subjects": {
+      "name": "curriculum_subjects",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "curriculum_id": {
+          "name": "curriculum_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "subject_id": {
+          "name": "subject_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "semester": {
+          "name": "semester",
+          "type": "tinyint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "year_level": {
+          "name": "year_level",
+          "type": "tinyint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "curriculum_subjects_id": {
+          "name": "curriculum_subjects_id",
           "columns": [
             "id"
           ]
@@ -52,8 +142,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "subjecct_id": {
-          "name": "subjecct_id",
+        "subject_id": {
+          "name": "subject_id",
           "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
@@ -88,6 +178,51 @@
       "uniqueConstraints": {},
       "checkConstraint": {}
     },
+    "prerequisites": {
+      "name": "prerequisites",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "subject_id": {
+          "name": "subject_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "prerequisite_subject_id": {
+          "name": "prerequisite_subject_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "for_standing": {
+          "name": "for_standing",
+          "type": "char(20)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "prerequisites_id": {
+          "name": "prerequisites_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
     "students": {
       "name": "students",
       "columns": {
@@ -97,6 +232,13 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": true
+        },
+        "student_number": {
+          "name": "student_number",
+          "type": "char(20)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         },
         "last_name": {
           "name": "last_name",
@@ -118,6 +260,14 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        },
+        "standing": {
+          "name": "standing",
+          "type": "tinyint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1
         },
         "year_level": {
           "name": "year_level",
@@ -158,13 +308,6 @@
           "notNull": true,
           "autoincrement": true
         },
-        "curriculum_id": {
-          "name": "curriculum_id",
-          "type": "bigint unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
         "code": {
           "name": "code",
           "type": "char(20)",
@@ -175,6 +318,13 @@
         "title": {
           "name": "title",
           "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "units": {
+          "name": "units",
+          "type": "tinyint",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false

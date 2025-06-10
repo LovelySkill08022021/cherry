@@ -1,0 +1,1 @@
+ALTER TABLE `grades` MODIFY COLUMN `value` float;

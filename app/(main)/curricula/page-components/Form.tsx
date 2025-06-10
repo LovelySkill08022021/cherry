@@ -13,15 +13,17 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Grid2x2Plus, MoreHorizontal, Save } from "lucide-react";
-import { useActionState } from "react";
+import { Save } from "lucide-react";
+import { JSX, useActionState } from "react";
 
 export default function Form({
     mode,
     data,
+    triggerComponent,
 }: {
     mode: "add" | "edit";
     data: { id: number; label: string };
+    triggerComponent: JSX.Element;
 }) {
     const [state, formAction, isPending] = useActionState(saveCurriculum, null);
 
@@ -30,7 +32,8 @@ export default function Form({
             <div className="">
                 <Dialog>
                     <DialogTrigger asChild>
-                        {mode == "add" ? (
+                        {triggerComponent}
+                        {/* {mode == "add" ? (
                             <Button>
                                 <Grid2x2Plus />
                                 New
@@ -39,7 +42,7 @@ export default function Form({
                             <Button variant={"ghost"}>
                                 <MoreHorizontal />
                             </Button>
-                        )}
+                        )} */}
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
                         <form action={formAction}>

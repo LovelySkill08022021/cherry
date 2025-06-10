@@ -1,1 +1,0 @@
-ALTER TABLE `students` ADD `standing` tinyint DEFAULT 1 NOT NULL;

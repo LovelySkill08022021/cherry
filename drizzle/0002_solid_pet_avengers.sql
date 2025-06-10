@@ -1,1 +1,0 @@
-ALTER TABLE `grades` RENAME COLUMN `subjecct_id` TO `subject_id`;

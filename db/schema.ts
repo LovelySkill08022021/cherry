@@ -1,7 +1,7 @@
 import {
     bigint,
     char,
-    int,
+    float,
     mysqlTable,
     tinyint,
     varchar,
@@ -63,6 +63,15 @@ export const students = mysqlTable("students", {
     section: char({ length: 2 }),
 });
 
+export const curriculum_students = mysqlTable("curriculum_students", {
+    id: bigint({ mode: "number", unsigned: true })
+        .primaryKey()
+        .autoincrement()
+        .notNull(),
+    student_id: bigint({ mode: "number", unsigned: true }).notNull(),
+    curriculum_id: bigint({ mode: "number", unsigned: true }).notNull(),
+});
+
 export const grades = mysqlTable("grades", {
     id: bigint({ mode: "number", unsigned: true })
         .primaryKey()
@@ -70,6 +79,6 @@ export const grades = mysqlTable("grades", {
         .notNull(),
     student_id: bigint({ mode: "number", unsigned: true }).notNull(),
     subject_id: bigint({ mode: "number", unsigned: true }).notNull(),
-    value: char({ length: 20 }),
+    value: float().notNull(),
     no_of_takes: tinyint({ unsigned: true }).notNull().default(1),
 });

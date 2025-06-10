@@ -1,1 +1,0 @@
-ALTER TABLE `students` ADD `student_number` char(20) NOT NULL;

@@ -1,1 +1,0 @@
-ALTER TABLE `curricula` RENAME COLUMN `name` TO `label`;

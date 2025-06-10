@@ -19,7 +19,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { db } from "@/db";
 import { curriculum_subjects, subjects } from "@/db/schema";
 import { getOrdinal } from "@/lib/utils";
-import { CurriculumSubjectsForm, Subject } from "@/types";
+import { CurriculumSubjectForm, Subject } from "@/types";
 import { and, eq, isNull, sum } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Suspense } from "react";
@@ -95,7 +95,7 @@ export default async function Semester({
     async function handleSubjectSelect(subject: Subject) {
         "use server";
 
-        const add_subect_data: CurriculumSubjectsForm = {
+        const add_subect_data: CurriculumSubjectForm = {
             curriculum_id,
             year_level,
             semester,
