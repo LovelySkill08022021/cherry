@@ -8,6 +8,7 @@ import {
 } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
+import StudentStatus from "@/components/StudentStatus";
 import Link from "next/link";
 import YearLevel from "./server-components/YearLevel";
 
@@ -45,14 +46,15 @@ export default async function page({
                     <BackButton />
                 </Link>
             </div>
-            <div className=" text-lg mb-5 font-semibold">
-                Profile of{" "}
-                <span className="text-red-700">
+            <div className="mb-5 space-y-1">
+                <div className="text-3xl font-semibold">
                     {student.first_name} {student.middle_name}{" "}
                     {student.last_name}
-                </span>
+                </div>
+                <div>
+                    <StudentStatus student_id={id} />
+                </div>
             </div>
-            <div>Grades</div>
             <div className="space-y-10">
                 {year_levels.map((year_level) => (
                     <YearLevel

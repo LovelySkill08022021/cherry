@@ -24,6 +24,17 @@ export default async function Grade({
                 eq(grades.student_id, student_id)
             )
         );
+
+    // if (student_grades.length <= 0) {
+    //     return (
+    //         <AddGradeForm
+    //             student_id={student_id}
+    //             subject_id={subject_id}
+    //             student_grades={student_grades}
+    //         />
+    //     );
+    // }
+
     return (
         <>
             <div className="flex gap-1 items-center justify-end">
@@ -38,6 +49,7 @@ export default async function Grade({
                         </Badge>
                     );
                 })}
+
                 <AddGradeForm
                     student_id={student_id}
                     subject_id={subject_id}

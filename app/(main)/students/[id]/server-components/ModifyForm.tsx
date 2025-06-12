@@ -12,6 +12,7 @@ import { Grade } from "@/types";
 import { LoaderCircle } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
+import RemoveGradeForm from "./RemoveGradeForm";
 
 export default function ModifyForm({
     student_grade,
@@ -75,6 +76,7 @@ export default function ModifyForm({
                     </SelectGroup>
                 </SelectContent>
             </Select>
+            <RemoveGradeForm grade={student_grade} />
             {pending && (
                 <span className="flex items-center gap-1">
                     <LoaderCircle

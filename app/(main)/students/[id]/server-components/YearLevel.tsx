@@ -45,8 +45,8 @@ export default async function YearLevel({
     });
 
     return (
-        <div className="flex flex-col w-full ">
-            <div className=" flex">
+        <div className="flex gap-1 flex-col w-full ">
+            <div className="flex">
                 <div className="font-semibold text-lg">
                     {getOrdinal(year_level)} Year
                 </div>

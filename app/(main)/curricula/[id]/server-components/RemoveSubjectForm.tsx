@@ -71,7 +71,7 @@ export default function RemoveSubjectForm({
                             Are you absolutely sure?
                         </AlertDialogTitle>
                         <AlertDialogDescription>
-                            You trying to remove a subject.
+                            You are trying to remove a subject.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

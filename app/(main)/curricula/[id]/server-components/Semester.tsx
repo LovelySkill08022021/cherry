@@ -6,16 +6,8 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-
 import { Skeleton } from "@/components/ui/skeleton";
+import { Table } from "@/components/ui/table";
 import { db } from "@/db";
 import { curriculum_subjects, subjects } from "@/db/schema";
 import { getOrdinal } from "@/lib/utils";
@@ -24,7 +16,7 @@ import { and, eq, isNull, sum } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Suspense } from "react";
 import ClearSemesterSubjectsForm from "./ClearSemesterSubjectsForm";
-import SubjectItem from "./SubjectItem";
+import SubjectItem from "./subject-item/SubjectItem";
 import SubjectSelect from "./SubjectSelect";
 
 type Props = {
@@ -33,6 +25,8 @@ type Props = {
     year_level: number;
     semester: 1 | 2 | 3;
 };
+
+export const td_class = `py-2 px-2 border-1`;
 
 export default async function Semester({
     curriculum_id,
@@ -169,31 +163,45 @@ export default async function Semester({
                 <CardTitle>{getOrdinal(semester)} Semester</CardTitle>
             </CardHeader>
             <CardContent>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Code</TableHead>
-                            <TableHead>Title</TableHead>
-                            <TableHead>Units</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
+                <Table className="">
+                    <thead>
+                        <tr>
+                            <th className={td_class} align="left">
+                                Code
+                            </th>
+                            <th className={td_class} align="left">
+                                Title
+                            </th>
+                            <th className={td_class} align="left">
+                                Units
+                            </th>
+                            <th className={td_class} align="left">
+                                Prerequisite
+                            </th>
+                            <th className={td_class} align="left"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {semester_data.subject_ids.map((subject_id, index) => (
                             <SubjectItem
                                 key={index}
                                 curriculum_id={curriculum_id}
                                 subject_id={subject_id}
+                                year_level={year_level}
+                                semester={semester}
                             />
                         ))}
-                        <TableRow className="font-semibold">
-                            <TableCell colSpan={2} align="right">
+                        <tr className="font-semibold">
+                            <td className={td_class} colSpan={2} align="right">
                                 Total Units:
-                            </TableCell>
-                            <TableCell colSpan={2}>
+                            </td>
+                            <td className={td_class}>
                                 {semester_data.total_units}
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
+                            </td>
+                            <td className={td_class}></td>
+                            <td className={td_class}></td>
+                        </tr>
+                    </tbody>
                 </Table>
             </CardContent>
             <CardFooter>

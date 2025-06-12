@@ -41,8 +41,9 @@ export const prerequisites = mysqlTable("prerequisites", {
         .primaryKey()
         .autoincrement()
         .notNull(),
+    curriculum_id: bigint({ mode: "number", unsigned: true }).notNull(),
     subject_id: bigint({ mode: "number", unsigned: true }).notNull(),
-    prerequisite_subject_id: bigint({
+    prerequisite: bigint({
         mode: "number",
         unsigned: true,
     }).notNull(),

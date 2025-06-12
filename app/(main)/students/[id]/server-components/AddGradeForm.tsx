@@ -115,79 +115,90 @@ export default function AddGradeForm({
                                 </TableBody>
                             </Table>
 
-                            <div className="font-semibold mt-5">
-                                Add student grade
-                            </div>
-                            <div className="flex gap-2">
-                                <Select
-                                    value={grade}
-                                    onValueChange={(value) => setGrade(value)}
-                                >
-                                    <SelectTrigger className="w-1/2">
-                                        <SelectValue placeholder="Select a grade" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            <SelectLabel>Grades</SelectLabel>
-                                            <SelectItem value="1">
-                                                1.00
-                                            </SelectItem>
-                                            <SelectItem value="1.25">
-                                                1.25
-                                            </SelectItem>
-                                            <SelectItem value="1.5">
-                                                1.50
-                                            </SelectItem>
-                                            <SelectItem value="1.75">
-                                                1.75
-                                            </SelectItem>
-                                            <SelectItem value="2">
-                                                2.00
-                                            </SelectItem>
-                                            <SelectItem value="2.25">
-                                                2.25
-                                            </SelectItem>
-                                            <SelectItem value="2.5">
-                                                2.50
-                                            </SelectItem>
-                                            <SelectItem value="2.75">
-                                                2.75
-                                            </SelectItem>
-                                            <SelectItem value="3">
-                                                3.00
-                                            </SelectItem>
-                                            <SelectItem value="4">
-                                                4.00
-                                            </SelectItem>
-                                            <SelectItem value="5">
-                                                5.00
-                                            </SelectItem>
-                                            <SelectItem value="INC">
-                                                INC
-                                            </SelectItem>
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                                <Button
-                                    onClick={handleGradeSubmit}
-                                    disabled={pending}
-                                >
-                                    {pending ? (
-                                        <>
-                                            <LoaderCircle
-                                                className="animate-spin"
-                                                strokeWidth={3}
-                                                size={15}
-                                            />{" "}
-                                            Saving...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Save /> Save
-                                        </>
-                                    )}
-                                </Button>
-                            </div>
+                            {((student_grades.length < 3 &&
+                                student_grades[student_grades.length - 1]
+                                    ?.value > 3) ||
+                                student_grades.length <= 0) && (
+                                <>
+                                    <div className="font-semibold mt-5">
+                                        Add student grade
+                                    </div>
+                                    <div className="flex gap-2">
+                                        <Select
+                                            value={grade}
+                                            onValueChange={(value) =>
+                                                setGrade(value)
+                                            }
+                                        >
+                                            <SelectTrigger className="w-1/2">
+                                                <SelectValue placeholder="Select a grade" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectLabel>
+                                                        Grades
+                                                    </SelectLabel>
+                                                    <SelectItem value="1">
+                                                        1.00
+                                                    </SelectItem>
+                                                    <SelectItem value="1.25">
+                                                        1.25
+                                                    </SelectItem>
+                                                    <SelectItem value="1.5">
+                                                        1.50
+                                                    </SelectItem>
+                                                    <SelectItem value="1.75">
+                                                        1.75
+                                                    </SelectItem>
+                                                    <SelectItem value="2">
+                                                        2.00
+                                                    </SelectItem>
+                                                    <SelectItem value="2.25">
+                                                        2.25
+                                                    </SelectItem>
+                                                    <SelectItem value="2.5">
+                                                        2.50
+                                                    </SelectItem>
+                                                    <SelectItem value="2.75">
+                                                        2.75
+                                                    </SelectItem>
+                                                    <SelectItem value="3">
+                                                        3.00
+                                                    </SelectItem>
+                                                    <SelectItem value="4">
+                                                        4.00
+                                                    </SelectItem>
+                                                    <SelectItem value="5">
+                                                        5.00
+                                                    </SelectItem>
+                                                    <SelectItem value="INC">
+                                                        INC
+                                                    </SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                        <Button
+                                            onClick={handleGradeSubmit}
+                                            disabled={pending}
+                                        >
+                                            {pending ? (
+                                                <>
+                                                    <LoaderCircle
+                                                        className="animate-spin"
+                                                        strokeWidth={3}
+                                                        size={15}
+                                                    />{" "}
+                                                    Saving...
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Save /> Save
+                                                </>
+                                            )}
+                                        </Button>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
                     <DialogFooter className="sm:justify-start">
