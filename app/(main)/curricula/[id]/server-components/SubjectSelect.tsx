@@ -81,8 +81,8 @@ export default function SubjectSelect({
                     />
                 </div>
                 <div className="h-[350px] overflow-x-auto">
-                    {search_subjects?.map((subject) => (
-                        <SubjectMenuItem subject={subject}>
+                    {search_subjects?.map((subject, index) => (
+                        <SubjectMenuItem key={index} subject={subject}>
                             <Button
                                 onClick={() => {
                                     onSelectSubjectAction(subject);

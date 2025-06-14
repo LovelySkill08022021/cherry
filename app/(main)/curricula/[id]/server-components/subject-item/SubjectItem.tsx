@@ -25,21 +25,34 @@ export default async function SubjectItem({
         .where(eq(subjects.id, subject_id));
     const subject = result[0];
 
-    const subject_prerequisites = (
-        await db
-            .select({
-                prerequisite: prerequisites.prerequisite,
-            })
+    const subject_prerequisites = await db.transaction(async (tx) => {
+        const subject_prerequisite_ids = (
+            await db
+                .select({
+                    prerequisite: prerequisites.prerequisite,
+                })
+                .from(prerequisites)
+                .where(
+                    and(
+                        eq(prerequisites.subject_id, subject_id),
+                        eq(prerequisites.curriculum_id, curriculum_id)
+                    )
+                )
+        ).map((item) => {
+            return item.prerequisite;
+        });
+
+        const subject_prerequisite_data = await db
+            .select()
             .from(prerequisites)
-            .leftJoin(subjects, eq(prerequisites.prerequisite, subjects.id))
             .where(
                 and(
                     eq(prerequisites.subject_id, subject_id),
                     eq(prerequisites.curriculum_id, curriculum_id)
                 )
-            )
-    ).map((item) => {
-        return item.prerequisite;
+            );
+
+        return { subject_prerequisite_ids, subject_prerequisite_data };
     });
 
     async function getSubjectinThisCurriculum() {
@@ -56,7 +69,7 @@ export default async function SubjectItem({
                         eq(curriculum_subjects.curriculum_id, curriculum_id),
                         notInArray(
                             curriculum_subjects.subject_id,
-                            subject_prerequisites
+                            subject_prerequisites.subject_prerequisite_ids
                         )
                     )
                 )
@@ -102,7 +115,7 @@ export default async function SubjectItem({
             </td>
             <td className={td_class} valign="top">
                 <div>
-                    {subject_prerequisites.map(
+                    {subject_prerequisites.subject_prerequisite_data.map(
                         (subject_prerequisite, index) => (
                             <Suspense
                                 key={index}
@@ -111,9 +124,12 @@ export default async function SubjectItem({
                                 }
                             >
                                 <Prerequisite
-                                    prerequisite={subject_prerequisite}
+                                    prerequisite={
+                                        subject_prerequisite.prerequisite
+                                    }
                                     subject_id={subject_id}
                                     curriculum_id={curriculum_id}
+                                    type={subject_prerequisite.type}
                                 />
                             </Suspense>
                         )
