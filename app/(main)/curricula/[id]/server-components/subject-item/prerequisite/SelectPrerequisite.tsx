@@ -14,18 +14,22 @@ import {
 import { Subject } from "@/types";
 import { Plus, SearchIcon } from "lucide-react";
 import { use, useEffect, useState } from "react";
+import SubjectMenuItem from "../../SubjectMenuItem";
 import Form from "./Form";
+import StandingAsPrerequisite from "./StandingAsPrerequisite";
 
 type Props = {
     className?: string;
     subject_id: number;
     curriculum_id: number;
+    year_level: number;
     subjectsPromise: Promise<Subject[]>;
 };
 export default function SelectPrerequisite({
     className,
     subject_id,
     curriculum_id,
+    year_level,
     subjectsPromise,
 }: Props) {
     const [keyword, setKeyword] = useState("");
@@ -81,26 +85,21 @@ export default function SelectPrerequisite({
                         onChange={(e) => searchSubject(e.target.value)}
                     />
                 </div>
+                <StandingAsPrerequisite
+                    year_level={year_level}
+                    subject_id={subject_id}
+                    curriculum_id={curriculum_id}
+                />
+
                 <div className="h-[350px] overflow-x-auto">
-                    {search_subjects?.map((subject) => (
-                        <div
-                            key={subject.id}
-                            className="flex gap-2 items-start hover:bg-gray-100 py-2 rounded-lg px-2"
-                        >
+                    {search_subjects?.map((subject, index) => (
+                        <SubjectMenuItem key={index} subject={subject}>
                             <Form
                                 subject_id={subject_id}
                                 prerequisite={subject.id}
                                 curriculum_id={curriculum_id}
                             />
-                            <div className="leading-[15px] w-full">
-                                <div className="font-semibold">
-                                    {subject.code}
-                                </div>
-                                <div className="text-sm text-gray-500">
-                                    {subject.title}
-                                </div>
-                            </div>
-                        </div>
+                        </SubjectMenuItem>
                     ))}
                 </div>
             </PopoverContent>

@@ -3,10 +3,10 @@ import { db } from "@/db";
 import { curriculum_subjects, prerequisites, subjects } from "@/db/schema";
 import { and, eq, notInArray } from "drizzle-orm";
 import { Suspense } from "react";
-import Prerequisite from "../prerequisite/Prerequisite";
-import SelectPrerequisite from "../prerequisite/SelectPrerequisite";
 import RemoveSubjectForm from "../RemoveSubjectForm";
 import { td_class } from "../Semester";
+import Prerequisite from "./prerequisite/Prerequisite";
+import SelectPrerequisite from "./prerequisite/SelectPrerequisite";
 
 export default async function SubjectItem({
     subject_id,
@@ -65,17 +65,21 @@ export default async function SubjectItem({
                 if (
                     item.curriculum_subjects.year_level < year_level ||
                     (item.curriculum_subjects.year_level == year_level &&
-                        item.curriculum_subjects.semester == 1)
+                        item.curriculum_subjects.semester <= semester &&
+                        item.curriculum_subjects.subject_id != subject_id)
                 ) {
-                    if (
-                        item.curriculum_subjects.semester == semester &&
-                        item.curriculum_subjects.year_level == year_level
-                    ) {
-                        return false;
-                    }
+                    // if (
+                    //     item.curriculum_subjects.semester == semester &&
+                    //     item.curriculum_subjects.year_level == year_level
+                    // ) {
+                    //     return false;
+                    // }
 
                     return true;
                 }
+                // if (item.curriculum_subjects.year_level == year_level) {
+                //     return true;
+                // }
             })
             .map((item) => {
                 return item.subjects;
@@ -117,6 +121,7 @@ export default async function SubjectItem({
 
                     {!(year_level == 1 && semester == 1) ? (
                         <SelectPrerequisite
+                            year_level={year_level}
                             subject_id={subject_id}
                             curriculum_id={curriculum_id}
                             subjectsPromise={getSubjectinThisCurriculum()}

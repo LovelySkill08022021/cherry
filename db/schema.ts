@@ -47,7 +47,7 @@ export const prerequisites = mysqlTable("prerequisites", {
         mode: "number",
         unsigned: true,
     }).notNull(),
-    for_standing: char({ length: 20 }),
+    type: char({ length: 5 }),
 });
 
 export const students = mysqlTable("students", {

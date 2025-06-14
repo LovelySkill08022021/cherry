@@ -26,6 +26,7 @@ export default function Form({
                 prerequisite,
                 curriculum_id
             );
+
             if (!response.status) {
                 toast.error("Notice!", {
                     description: response.message,
@@ -43,8 +44,9 @@ export default function Form({
             <Button
                 disabled={pending}
                 onClick={onPrerequisiteSelect}
-                variant={"outline"}
-                className="hover:text-white hover:bg-red-700 text-red-500"
+                variant={"ghost"}
+                size={"icon"}
+                className="hover:text-white bg-gray-100 hover:bg-red-700 text-red-500"
             >
                 {pending ? (
                     <LoaderCircle
@@ -52,7 +54,7 @@ export default function Form({
                         className="animate-spin text-red-500"
                     />
                 ) : (
-                    <Plus strokeWidth={3} className="text-red-500" />
+                    <Plus strokeWidth={3} />
                 )}
             </Button>
         </div>

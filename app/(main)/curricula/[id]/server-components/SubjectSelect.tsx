@@ -14,6 +14,7 @@ import {
 import { Subject } from "@/types";
 import { Plus, SearchIcon } from "lucide-react";
 import { use, useEffect, useState } from "react";
+import SubjectMenuItem from "./SubjectMenuItem";
 
 type Props = {
     className?: string;
@@ -81,30 +82,18 @@ export default function SubjectSelect({
                 </div>
                 <div className="h-[350px] overflow-x-auto">
                     {search_subjects?.map((subject) => (
-                        <div
-                            key={subject.id}
-                            className="flex gap-2 items-start hover:bg-gray-100 py-2 rounded-lg px-2"
-                        >
-                            <div className="">
-                                <Button
-                                    onClick={() => {
-                                        onSelectSubjectAction(subject);
-                                    }}
-                                    variant={"outline"}
-                                    className="hover:text-white hover:bg-red-700 text-red-500"
-                                >
-                                    <Plus strokeWidth={3} />
-                                </Button>
-                            </div>
-                            <div className="leading-[15px] w-full">
-                                <div className="font-semibold">
-                                    {subject.code}
-                                </div>
-                                <div className="text-sm text-gray-500">
-                                    {subject.title}
-                                </div>
-                            </div>
-                        </div>
+                        <SubjectMenuItem subject={subject}>
+                            <Button
+                                onClick={() => {
+                                    onSelectSubjectAction(subject);
+                                }}
+                                variant={"ghost"}
+                                size={"icon"}
+                                className="bg-gray-100 hover:text-white hover:bg-red-700 text-red-500"
+                            >
+                                <Plus strokeWidth={3} />
+                            </Button>
+                        </SubjectMenuItem>
                     ))}
                 </div>
             </PopoverContent>
