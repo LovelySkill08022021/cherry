@@ -11,9 +11,8 @@ import { Table } from "@/components/ui/table";
 import { db } from "@/db";
 import { curriculum_subjects, subjects } from "@/db/schema";
 import { getOrdinal } from "@/lib/utils";
-import { CurriculumSubjectForm, Subject } from "@/types";
-import { and, eq, isNull, sum } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
+import { Subject } from "@/types";
+import { and, eq, sum } from "drizzle-orm";
 import { Suspense } from "react";
 import ClearSemesterSubjectsForm from "./ClearSemesterSubjectsForm";
 import SubjectItem from "./subject-item/SubjectItem";
@@ -86,77 +85,6 @@ export default async function Semester({
         };
     });
 
-    async function handleSubjectSelect(subject: Subject) {
-        "use server";
-
-        const add_subect_data: CurriculumSubjectForm = {
-            curriculum_id,
-            year_level,
-            semester,
-            subject_id: subject.id,
-        };
-
-        const entirety_result = await db.transaction(async (tx) => {
-            const null_subject_id_exist = await tx.$count(
-                curriculum_subjects,
-                and(
-                    eq(curriculum_subjects.curriculum_id, curriculum_id),
-                    eq(curriculum_subjects.year_level, year_level),
-                    eq(curriculum_subjects.semester, semester),
-                    isNull(curriculum_subjects.subject_id)
-                )
-            );
-
-            if (null_subject_id_exist > 0) {
-                const update_result = await tx
-                    .update(curriculum_subjects)
-                    .set({ subject_id: subject.id })
-                    .where(
-                        and(
-                            eq(
-                                curriculum_subjects.curriculum_id,
-                                curriculum_id
-                            ),
-                            eq(curriculum_subjects.year_level, year_level),
-                            eq(curriculum_subjects.semester, semester),
-                            isNull(curriculum_subjects.subject_id)
-                        )
-                    );
-
-                if (update_result[0].affectedRows <= 0) {
-                    return {
-                        success: false,
-                        message: "Failed to save subject.",
-                    };
-                }
-
-                return {
-                    success: true,
-                    message: "Subject saved.",
-                };
-            }
-
-            const insert_result = await tx
-                .insert(curriculum_subjects)
-                .values(add_subect_data);
-
-            if (insert_result[0].affectedRows <= 0) {
-                return {
-                    success: false,
-                    message: "Failed to save subject.",
-                };
-            }
-
-            return {
-                success: true,
-                message: "Subject saved.",
-            };
-        });
-
-        revalidatePath(`curricula/${curriculum_id}`);
-        return entirety_result;
-    }
-
     return (
         <Card className="w-1/2 bg-white border-0 shadow-none">
             <CardHeader>
@@ -210,7 +138,9 @@ export default async function Semester({
                         <SubjectSelect
                             className="border-0 shadow-none bg-gray-100 hover:bg-red-700 text-red-500 hover:text-white"
                             subjectsPromise={subjectsPromise}
-                            onSelectSubjectAction={handleSubjectSelect}
+                            curriculum_id={curriculum_id}
+                            year_level={year_level}
+                            semester={semester}
                         />
 
                         <ClearSemesterSubjectsForm

@@ -1,0 +1,1 @@
+ALTER TABLE `enrollments` ADD `student_id` bigint unsigned NOT NULL;

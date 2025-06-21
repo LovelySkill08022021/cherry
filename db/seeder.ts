@@ -1,7 +1,7 @@
 import { db } from "./index";
 import { students } from "./schema";
 
-async function seed(){
+async function seed() {
     try {
         const students_data = [
             {
@@ -12,6 +12,7 @@ async function seed(){
                 first_name: "Roger",
                 middle_name: "Tabia",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -21,6 +22,7 @@ async function seed(){
                 first_name: "Lindberg Josh",
                 middle_name: "Tacazon",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -30,6 +32,7 @@ async function seed(){
                 first_name: "Jeremy",
                 middle_name: "Gumayagay",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -39,6 +42,7 @@ async function seed(){
                 first_name: "Jann Dheyv",
                 middle_name: "Agraan",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -48,6 +52,7 @@ async function seed(){
                 first_name: "Gian Kenneth",
                 middle_name: "Badanguio",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -57,6 +62,7 @@ async function seed(){
                 first_name: "John Raphael",
                 middle_name: "Pambid",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -66,6 +72,7 @@ async function seed(){
                 first_name: "Vincent Louise",
                 middle_name: "Eclarin",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -75,6 +82,7 @@ async function seed(){
                 first_name: "Arlyn Grace",
                 middle_name: "Pasibe",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -84,6 +92,7 @@ async function seed(){
                 first_name: "Lord Gian Cedric",
                 middle_name: "Legaspi",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -93,6 +102,7 @@ async function seed(){
                 first_name: "Raven Althea",
                 middle_name: "Rosales",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -102,6 +112,7 @@ async function seed(){
                 first_name: "Milben John",
                 middle_name: "Garcia",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -111,6 +122,7 @@ async function seed(){
                 first_name: "Zenon Angelo",
                 middle_name: "Reyes",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -120,6 +132,7 @@ async function seed(){
                 first_name: "Adrian",
                 middle_name: "Lucena",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -129,6 +142,7 @@ async function seed(){
                 first_name: "John Rafael",
                 middle_name: "Luna",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -138,6 +152,7 @@ async function seed(){
                 first_name: "Van Justine",
                 middle_name: "Dela Cruz",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -147,6 +162,7 @@ async function seed(){
                 first_name: "Aaron Jade",
                 middle_name: "Cudanes",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -156,6 +172,7 @@ async function seed(){
                 first_name: "Glyza",
                 middle_name: "Aurellano",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -165,6 +182,7 @@ async function seed(){
                 first_name: "Rzayne Jade",
                 middle_name: "Dones",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -174,6 +192,7 @@ async function seed(){
                 first_name: "Carl Vincent",
                 middle_name: "Abuy",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -183,6 +202,7 @@ async function seed(){
                 first_name: "Abegail",
                 middle_name: "Bautista",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -192,6 +212,7 @@ async function seed(){
                 first_name: "Nicole Anne",
                 middle_name: "Panganiban",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -201,6 +222,7 @@ async function seed(){
                 first_name: "Isaiah Timothy",
                 middle_name: "Palapala",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -210,6 +232,7 @@ async function seed(){
                 first_name: "Jericho",
                 middle_name: "Guerrero",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -219,6 +242,7 @@ async function seed(){
                 first_name: "Sharwin Macario",
                 middle_name: "Gabriel",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -228,6 +252,7 @@ async function seed(){
                 first_name: "KURT CHASSY",
                 middle_name: "ALFEREZ",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -237,6 +262,7 @@ async function seed(){
                 first_name: "Jerlyn",
                 middle_name: "Ulidan",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -246,6 +272,7 @@ async function seed(){
                 first_name: "John Rich",
                 middle_name: "Pastor",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -255,6 +282,7 @@ async function seed(){
                 first_name: "Uriel Eyvind",
                 middle_name: "Guittap",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -264,6 +292,7 @@ async function seed(){
                 first_name: "Jhune Michael",
                 middle_name: "Ramirez",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -273,6 +302,7 @@ async function seed(){
                 first_name: "Jansen Jay",
                 middle_name: "Mamuad",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -282,6 +312,7 @@ async function seed(){
                 first_name: "MARK NEIL",
                 middle_name: "PASCUAL",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -291,6 +322,7 @@ async function seed(){
                 first_name: "Aaron James",
                 middle_name: "Edrada",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -300,6 +332,7 @@ async function seed(){
                 first_name: "Vanessa",
                 middle_name: "Ordillos",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -309,6 +342,7 @@ async function seed(){
                 first_name: "John Chrisley",
                 middle_name: "Espiritu",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -318,6 +352,7 @@ async function seed(){
                 first_name: "RED AXELL",
                 middle_name: "DE GUZMAN",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -327,6 +362,7 @@ async function seed(){
                 first_name: "Norien",
                 middle_name: "Ogot",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -336,6 +372,7 @@ async function seed(){
                 first_name: "McJanielle",
                 middle_name: "Dumlao",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -345,6 +382,7 @@ async function seed(){
                 first_name: "Renz Jericho",
                 middle_name: "Torralba",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -354,6 +392,7 @@ async function seed(){
                 first_name: "Edlyn Althea",
                 middle_name: "Adriano",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -363,6 +402,7 @@ async function seed(){
                 first_name: "Jhian Marco",
                 middle_name: "Simbre",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -372,6 +412,7 @@ async function seed(){
                 first_name: "Mack Ryan",
                 middle_name: "Virtud",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -381,6 +422,7 @@ async function seed(){
                 first_name: "Karl Alexis",
                 middle_name: "Delos Santos",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -390,6 +432,7 @@ async function seed(){
                 first_name: "LOVYMAR JUSTIN THEO",
                 middle_name: "RAMOS",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -399,6 +442,7 @@ async function seed(){
                 first_name: "Lloyd",
                 middle_name: "Dipit",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -408,6 +452,7 @@ async function seed(){
                 first_name: "Mark John",
                 middle_name: "Palomer",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -417,6 +462,7 @@ async function seed(){
                 first_name: "Marc Johnler",
                 middle_name: "Mamaclay",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -426,6 +472,7 @@ async function seed(){
                 first_name: "Kevin John",
                 middle_name: "Santos",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -435,6 +482,7 @@ async function seed(){
                 first_name: "ALLY BERT",
                 middle_name: "DOMINGO",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -444,6 +492,7 @@ async function seed(){
                 first_name: "Shannel Azeneth",
                 middle_name: "Andres",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -453,6 +502,7 @@ async function seed(){
                 first_name: "Arvin Dave",
                 middle_name: "Salvador",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -462,6 +512,7 @@ async function seed(){
                 first_name: "Reiley Angelo",
                 middle_name: null,
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -471,6 +522,7 @@ async function seed(){
                 first_name: "Carl Ashley",
                 middle_name: "Bolivar",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -480,6 +532,7 @@ async function seed(){
                 first_name: "Kevin",
                 middle_name: "Sagsagat",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -489,6 +542,7 @@ async function seed(){
                 first_name: "Ian",
                 middle_name: "Natividad",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -498,6 +552,7 @@ async function seed(){
                 first_name: "Ralph Alvic",
                 middle_name: "Semana",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -507,6 +562,7 @@ async function seed(){
                 first_name: "Jacquelyn",
                 middle_name: "Rafal",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -516,6 +572,7 @@ async function seed(){
                 first_name: "Aguiluz",
                 middle_name: "Tagatac",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -525,6 +582,7 @@ async function seed(){
                 first_name: "April Joy",
                 middle_name: "Ravilas",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -534,6 +592,7 @@ async function seed(){
                 first_name: "John Carlo",
                 middle_name: "Rico",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -543,6 +602,7 @@ async function seed(){
                 first_name: "Erich Lyka",
                 middle_name: "Vila",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "A",
@@ -552,6 +612,7 @@ async function seed(){
                 first_name: "Voltaire",
                 middle_name: "Ansong",
                 year_level: 2,
+                year_admitted: 0,
             },
             {
                 section: "B",
@@ -561,14 +622,14 @@ async function seed(){
                 first_name: "Jhunro",
                 middle_name: "Anapio",
                 year_level: 2,
+                year_admitted: 0,
             },
         ];
         await db.insert(students).values(students_data);
-        console.log('✅ Students seeded successfully!');
+        console.log("✅ Students seeded successfully!");
     } catch (error) {
-        console.error('❌ Seeding failed:', error);
+        console.error("❌ Seeding failed:", error);
     }
-    
 }
 
 seed();

@@ -4,10 +4,10 @@ import { students } from "@/db/schema";
 import { Student } from "@/types";
 import { like, or } from "drizzle-orm";
 
-export async function searchGetStudents(prev: any, formData: FormData) {
+export async function searchGetStudents(prev: Student[], formData: FormData) {
     const keyword = formData.get("keyword") as string;
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    var data: Student[] = await db
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
+    const data: Student[] = await db
         .select()
         .from(students)
         .where(
@@ -16,7 +16,8 @@ export async function searchGetStudents(prev: any, formData: FormData) {
                 like(students.first_name, `%${keyword}%`),
                 like(students.middle_name, `%${keyword}%`)
             )
-        );
+        )
+        .orderBy(students.last_name);
 
     return data;
 }

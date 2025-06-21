@@ -13,13 +13,15 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { BrushCleaning, LoaderCircle } from "lucide-react";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
 type Props = {
@@ -32,6 +34,8 @@ export default function ClearSemesterSubjectsForm({
     year_level,
     semester,
 }: Props) {
+    const [confirm_key, setConfirmKey] = useState("");
+
     const [pending, startTransition] = useTransition();
     function submmitForm() {
         startTransition(async () => {
@@ -41,6 +45,8 @@ export default function ClearSemesterSubjectsForm({
                 year_level,
                 semester
             );
+
+            setConfirmKey("");
 
             if (result.status == "error") {
                 toast.error("Notice!", {
@@ -95,15 +101,37 @@ export default function ClearSemesterSubjectsForm({
                         <AlertDialogTitle>
                             Are you absolutely sure?
                         </AlertDialogTitle>
-                        <AlertDialogDescription>
-                            This action cannot be undone. It will permanently
-                            delete all the subjects added to this semester.
+                        <AlertDialogDescription asChild>
+                            <div>
+                                <div>
+                                    This action cannot be undone. It will
+                                    permanently delete all the subjects added to
+                                    this semester.
+                                </div>
+                                <div className="space-y-2 mt-5">
+                                    <Label htmlFor="confirmation">
+                                        {`Type "CONFIRM" to proceed`}
+                                    </Label>
+                                    <Input
+                                        id="confirmation"
+                                        value={confirm_key}
+                                        onChange={(e) =>
+                                            setConfirmKey(e.target.value)
+                                        }
+                                    />
+                                </div>
+                            </div>
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <AlertDialogAction asChild>
-                            <Button onClick={submmitForm}>Confirm</Button>
+                            <Button
+                                onClick={submmitForm}
+                                disabled={confirm_key != "CONFIRM"}
+                            >
+                                Confirm
+                            </Button>
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

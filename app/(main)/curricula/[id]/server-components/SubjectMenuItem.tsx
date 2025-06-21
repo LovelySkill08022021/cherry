@@ -17,6 +17,12 @@ export default function SubjectMenuItem({ subject, children }: Props) {
                 <div className="text-[.875rem] text-gray-500">
                     {subject.title}
                 </div>
+                <div className="text-[.875rem] text-gray-500">
+                    <span className="text-red-600 font-semibold">
+                        {subject.units}
+                    </span>{" "}
+                    units
+                </div>
             </div>
         </div>
     );

@@ -1,6 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
     Table,
@@ -70,11 +78,36 @@ export default function StudentTable({
                                 <TableCell>{student.year_level}</TableCell>
                                 <TableCell>{student.section}</TableCell>
                                 <TableCell>
-                                    <Link href={`/students/${student.id}`}>
-                                        <Button variant="ghost" size={"icon"}>
-                                            <MoreVertical />
-                                        </Button>
-                                    </Link>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button
+                                                variant="ghost"
+                                                size={"icon"}
+                                            >
+                                                <MoreVertical />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            <DropdownMenuLabel>
+                                                Option
+                                            </DropdownMenuLabel>
+                                            <DropdownMenuSeparator />
+                                            <Link
+                                                href={`/students/${student.id}/prospectus`}
+                                            >
+                                                <DropdownMenuItem>
+                                                    Prospectus
+                                                </DropdownMenuItem>
+                                            </Link>
+                                            <Link
+                                                href={`/students/${student.id}/grades`}
+                                            >
+                                                <DropdownMenuItem>
+                                                    Grades
+                                                </DropdownMenuItem>
+                                            </Link>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </TableCell>
                             </TableRow>
                         ))}

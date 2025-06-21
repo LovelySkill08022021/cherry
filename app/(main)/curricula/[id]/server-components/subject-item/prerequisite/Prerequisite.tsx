@@ -50,7 +50,7 @@ export default async function Prerequisite({
     return (
         <div className="mb-1">
             <Badge variant={"outline"} className="border-0 bg-gray-200">
-                {subject.code} {type}
+                {subject.code}
                 <Remove
                     prerequisite={prerequisite}
                     subject_id={subject_id}

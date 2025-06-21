@@ -29,6 +29,34 @@
       "when": 1749801718840,
       "tag": "0004_needy_johnny_blaze",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1750141990465,
+      "tag": "0005_fantastic_orphan",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1750143291680,
+      "tag": "0006_purple_captain_universe",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1750144986043,
+      "tag": "0007_mixed_nuke",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1750261951750,
+      "tag": "0008_crazy_goliath",
+      "breakpoints": true
     }
   ]
 }

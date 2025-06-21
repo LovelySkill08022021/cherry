@@ -19,5 +19,5 @@ export default async function StudentStatus({
 
     // console.log(has_3_retakes);
 
-    return <Badge className="bg-amber-500">Probation</Badge>;
+    return <Badge className="bg-amber-500">{student_id} Probation</Badge>;
 }

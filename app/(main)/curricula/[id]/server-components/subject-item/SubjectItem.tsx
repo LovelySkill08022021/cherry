@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { db } from "@/db";
 import { curriculum_subjects, prerequisites, subjects } from "@/db/schema";
-import { and, eq, notInArray } from "drizzle-orm";
+import { and, eq, ne, notInArray } from "drizzle-orm";
 import { Suspense } from "react";
 import RemoveSubjectForm from "../RemoveSubjectForm";
 import { td_class } from "../Semester";
@@ -27,7 +27,7 @@ export default async function SubjectItem({
 
     const subject_prerequisites = await db.transaction(async (tx) => {
         const subject_prerequisite_ids = (
-            await db
+            await tx
                 .select({
                     prerequisite: prerequisites.prerequisite,
                 })
@@ -35,14 +35,15 @@ export default async function SubjectItem({
                 .where(
                     and(
                         eq(prerequisites.subject_id, subject_id),
-                        eq(prerequisites.curriculum_id, curriculum_id)
+                        eq(prerequisites.curriculum_id, curriculum_id),
+                        ne(prerequisites.type, "std")
                     )
                 )
         ).map((item) => {
             return item.prerequisite;
         });
 
-        const subject_prerequisite_data = await db
+        const subject_prerequisite_data = await tx
             .select()
             .from(prerequisites)
             .where(
@@ -52,7 +53,24 @@ export default async function SubjectItem({
                 )
             );
 
-        return { subject_prerequisite_ids, subject_prerequisite_data };
+        const standing_prereq = await tx
+            .select()
+            .from(prerequisites)
+            .where(
+                and(
+                    eq(prerequisites.subject_id, subject_id),
+                    eq(prerequisites.curriculum_id, curriculum_id),
+                    eq(prerequisites.type, "std")
+                )
+            );
+
+        const has_standing_prereq = standing_prereq.length > 0 ? true : false;
+
+        return {
+            subject_prerequisite_ids,
+            subject_prerequisite_data,
+            has_standing_prereq,
+        };
     });
 
     async function getSubjectinThisCurriculum() {
@@ -141,6 +159,9 @@ export default async function SubjectItem({
                             subject_id={subject_id}
                             curriculum_id={curriculum_id}
                             subjectsPromise={getSubjectinThisCurriculum()}
+                            hasStandingPrereq={
+                                subject_prerequisites.has_standing_prereq
+                            }
                         />
                     ) : (
                         <div className="text-gray-400">n/a</div>

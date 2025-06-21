@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { FileText, Home, LibraryBig, Settings, User } from "lucide-react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -26,17 +26,17 @@ export default function Content() {
         {
             title: "Students",
             url: "/students",
-            icon: Inbox,
+            icon: User,
         },
         {
             title: "Curricula",
             url: "/curricula",
-            icon: Calendar,
+            icon: FileText,
         },
         {
             title: "Subjects",
             url: "/subjects",
-            icon: Search,
+            icon: LibraryBig,
         },
         {
             title: "Settings",

@@ -3,6 +3,7 @@ import {
     char,
     float,
     mysqlTable,
+    smallint,
     tinyint,
     varchar,
 } from "drizzle-orm/mysql-core";
@@ -62,6 +63,7 @@ export const students = mysqlTable("students", {
     standing: tinyint().notNull().default(1),
     year_level: tinyint().notNull().default(1),
     section: char({ length: 2 }),
+    year_admitted: smallint().notNull(),
 });
 
 export const curriculum_students = mysqlTable("curriculum_students", {
@@ -78,8 +80,28 @@ export const grades = mysqlTable("grades", {
         .primaryKey()
         .autoincrement()
         .notNull(),
+    enrollment_id: bigint({ mode: "number", unsigned: true }).notNull(),
     student_id: bigint({ mode: "number", unsigned: true }).notNull(),
     subject_id: bigint({ mode: "number", unsigned: true }).notNull(),
     value: float().notNull(),
     no_of_takes: tinyint({ unsigned: true }).notNull().default(1),
+});
+
+export const enrollments = mysqlTable("enrollments", {
+    id: bigint({ mode: "number", unsigned: true })
+        .primaryKey()
+        .autoincrement()
+        .notNull(),
+    student_id: bigint({ mode: "number", unsigned: true }).notNull(),
+    semester: tinyint().notNull(),
+    year_level: tinyint().notNull(),
+});
+
+export const enrollment_subjects = mysqlTable("enrollment_subjects", {
+    id: bigint({ mode: "number", unsigned: true })
+        .primaryKey()
+        .autoincrement()
+        .notNull(),
+    enrollment_id: bigint({ mode: "number", unsigned: true }).notNull(),
+    subject_id: bigint({ mode: "number", unsigned: true }).notNull(),
 });

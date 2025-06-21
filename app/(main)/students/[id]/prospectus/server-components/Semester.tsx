@@ -61,7 +61,7 @@ export default function Semester({ student_id, semester_data }: Props) {
                                         >
                                             <Grade
                                                 student_id={student_id}
-                                                subject_id={subject.subjects.id}
+                                                subject={subject.subjects}
                                             />
                                         </Suspense>
                                     )}

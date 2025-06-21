@@ -5,6 +5,7 @@ import { grades } from "@/db/schema";
 import { revalidatePath } from "next/cache";
 
 export async function addStudentGrade(
+    enrollment_id: number,
     student_id: number,
     subject_id: number,
     grade: string
@@ -19,6 +20,7 @@ export async function addStudentGrade(
         };
     }
     const result = await db.insert(grades).values({
+        enrollment_id: enrollment_id,
         student_id: student_id,
         subject_id: subject_id,
         value: Number(grade),

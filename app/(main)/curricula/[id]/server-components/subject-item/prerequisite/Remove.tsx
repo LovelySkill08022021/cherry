@@ -1,6 +1,18 @@
 "use client";
 
 import { removeSubjectPrerequisite } from "@/actions/curriculum/prerequisites/remove-subject-prerequisite";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { LoaderCircle, X } from "lucide-react";
 import { useTransition } from "react";
 import { toast } from "sonner";
@@ -39,16 +51,42 @@ export default function Remove({
     }
 
     return (
-        <button onClick={handleRemove} disabled={pending}>
-            {pending ? (
-                <LoaderCircle
-                    className="animate-spin text-red-300"
-                    strokeWidth={3}
-                    size={15}
-                />
-            ) : (
-                <X className="text-red-600" strokeWidth={3} size={15} />
-            )}
-        </button>
+        <>
+            <AlertDialog>
+                <AlertDialogTrigger asChild>
+                    <button disabled={pending}>
+                        {pending ? (
+                            <LoaderCircle
+                                className="animate-spin text-red-300"
+                                strokeWidth={3}
+                                size={15}
+                            />
+                        ) : (
+                            <X
+                                className="text-red-600"
+                                strokeWidth={3}
+                                size={15}
+                            />
+                        )}
+                    </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>
+                            Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                            {`You are trying to remove a subject's prerequisite.`}
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction asChild>
+                            <Button onClick={handleRemove}>Confirm</Button>
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        </>
     );
 }

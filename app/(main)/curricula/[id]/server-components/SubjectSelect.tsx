@@ -14,19 +14,22 @@ import {
 import { Subject } from "@/types";
 import { Plus, SearchIcon } from "lucide-react";
 import { use, useEffect, useState } from "react";
+import AddSubjectForm from "./AddSubjectForm";
 import SubjectMenuItem from "./SubjectMenuItem";
 
 type Props = {
     className?: string;
     subjectsPromise: Promise<Subject[]>;
-    onSelectSubjectAction: (
-        subject: Subject
-    ) => Promise<{ success: boolean; message: string }>;
+    curriculum_id: number;
+    year_level: number;
+    semester: number;
 };
 export default function SubjectSelect({
     className,
     subjectsPromise,
-    onSelectSubjectAction,
+    curriculum_id,
+    year_level,
+    semester,
 }: Props) {
     const [keyword, setKeyword] = useState("");
     const [search_subjects, setSearchSubjects] = useState<Subject[]>();
@@ -83,16 +86,12 @@ export default function SubjectSelect({
                 <div className="h-[350px] overflow-x-auto">
                     {search_subjects?.map((subject, index) => (
                         <SubjectMenuItem key={index} subject={subject}>
-                            <Button
-                                onClick={() => {
-                                    onSelectSubjectAction(subject);
-                                }}
-                                variant={"ghost"}
-                                size={"icon"}
-                                className="bg-gray-100 hover:text-white hover:bg-red-700 text-red-500"
-                            >
-                                <Plus strokeWidth={3} />
-                            </Button>
+                            <AddSubjectForm
+                                subject={subject}
+                                curriculum_id={curriculum_id}
+                                year_level={year_level}
+                                semester={semester}
+                            />
                         </SubjectMenuItem>
                     ))}
                 </div>

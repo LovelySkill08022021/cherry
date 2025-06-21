@@ -72,7 +72,9 @@ export default function ModifyForm({
                         <SelectItem value="3">3.00</SelectItem>
                         <SelectItem value="4">4.00</SelectItem>
                         <SelectItem value="5">5.00</SelectItem>
-                        <SelectItem value="INC">INC</SelectItem>
+                        <SelectItem value="6">INC</SelectItem>
+                        <SelectItem value="7">IP</SelectItem>
+                        <SelectItem value="8">DRP</SelectItem>
                     </SelectGroup>
                 </SelectContent>
             </Select>

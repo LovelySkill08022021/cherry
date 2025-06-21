@@ -1,0 +1,1 @@
+ALTER TABLE `students` ADD `year_admitted` smallint NOT NULL;

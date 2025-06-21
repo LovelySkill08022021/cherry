@@ -6,11 +6,6 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Subject } from "@/types";
 import { Plus, SearchIcon } from "lucide-react";
 import { use, useEffect, useState } from "react";
@@ -24,6 +19,7 @@ type Props = {
     curriculum_id: number;
     year_level: number;
     subjectsPromise: Promise<Subject[]>;
+    hasStandingPrereq: boolean;
 };
 export default function SelectPrerequisite({
     className,
@@ -31,6 +27,7 @@ export default function SelectPrerequisite({
     curriculum_id,
     year_level,
     subjectsPromise,
+    hasStandingPrereq,
 }: Props) {
     const [keyword, setKeyword] = useState("");
     const [search_subjects, setSearchSubjects] = useState<Subject[]>();
@@ -56,24 +53,17 @@ export default function SelectPrerequisite({
 
     return (
         <Popover>
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    <PopoverTrigger asChild>
-                        <Button
-                            className={`${className} mt-2`}
-                            variant={"outline"}
-                            size={"sm"}
-                            onClick={() => searchSubject(keyword)}
-                        >
-                            <Plus strokeWidth={3} className="text-red-500" />{" "}
-                            Add
-                        </Button>
-                    </PopoverTrigger>
-                </TooltipTrigger>
-                <TooltipContent>
-                    <p>Add prerequisite</p>
-                </TooltipContent>
-            </Tooltip>
+            <PopoverTrigger asChild>
+                <div className="text-center">
+                    <Button
+                        className={`${className} w-[25px] h-[25px] text-red-500 hover:text-white hover:bg-red-700 mt-2 rounded-sm bg-gray-200`}
+                        variant={"ghost"}
+                        onClick={() => searchSubject(keyword)}
+                    >
+                        <Plus strokeWidth={3} size={15} className="" />
+                    </Button>
+                </div>
+            </PopoverTrigger>
             <PopoverContent align="start" side="bottom">
                 <div className="flex items-center bg-gray-100 rounded-md py-2 px-3 text-md gap-2 focus:bg-red-500 mb-3">
                     <SearchIcon className="size-4 shrink-0 opacity-50" />
@@ -85,11 +75,13 @@ export default function SelectPrerequisite({
                         onChange={(e) => searchSubject(e.target.value)}
                     />
                 </div>
-                <StandingAsPrerequisite
-                    year_level={year_level}
-                    subject_id={subject_id}
-                    curriculum_id={curriculum_id}
-                />
+                {!hasStandingPrereq && (
+                    <StandingAsPrerequisite
+                        year_level={year_level}
+                        subject_id={subject_id}
+                        curriculum_id={curriculum_id}
+                    />
+                )}
 
                 <div className="h-[350px] overflow-x-auto">
                     {search_subjects?.map((subject, index) => (

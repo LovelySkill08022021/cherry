@@ -29,20 +29,22 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Grade } from "@/types";
-import { LoaderCircle, Plus, Save } from "lucide-react";
+import { Grade, Subject } from "@/types";
+import { LoaderCircle, Save, SquarePen } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import ModifyForm from "./ModifyForm";
+import ModifyForm from "../../prospectus/server-components/ModifyForm";
 
 export default function AddGradeForm({
     student_id,
-    subject_id,
+    subject,
     student_grades,
+    enrollment_id,
 }: {
     student_id: number;
-    subject_id: number;
+    subject: Subject;
     student_grades: Grade[];
+    enrollment_id: number;
 }) {
     const [pending, startTransition] = useTransition();
     const [grade, setGrade] = useState("");
@@ -50,8 +52,9 @@ export default function AddGradeForm({
     function handleGradeSubmit() {
         startTransition(async () => {
             const response = await addStudentGrade(
+                enrollment_id,
                 student_id,
-                subject_id,
+                subject.id,
                 grade
             );
 
@@ -79,13 +82,20 @@ export default function AddGradeForm({
         <>
             <Dialog>
                 <DialogTrigger asChild>
-                    <Button variant="outline" size={"icon"}>
-                        <Plus />
+                    <Button
+                        variant="outline"
+                        size={"icon"}
+                        className="border-0 shadow-none bg-gray-200 text-amber-600 hover:bg-amber-600 hover:text-white"
+                    >
+                        <SquarePen />
                     </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                        <DialogTitle>Add or edit grade</DialogTitle>
+                        <DialogTitle>
+                            Add or edit grade for{" "}
+                            <span className="text-red-600">{subject.code}</span>
+                        </DialogTitle>
                         <DialogDescription>
                             You can only add a maximum of 3 grades per subject.
                         </DialogDescription>
@@ -171,8 +181,14 @@ export default function AddGradeForm({
                                                     <SelectItem value="5">
                                                         5.00
                                                     </SelectItem>
-                                                    <SelectItem value="INC">
+                                                    <SelectItem value="6">
                                                         INC
+                                                    </SelectItem>
+                                                    <SelectItem value="7">
+                                                        IP
+                                                    </SelectItem>
+                                                    <SelectItem value="8">
+                                                        DRP
                                                     </SelectItem>
                                                 </SelectGroup>
                                             </SelectContent>

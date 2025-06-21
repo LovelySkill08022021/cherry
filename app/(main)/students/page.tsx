@@ -4,7 +4,10 @@ import { Student } from "@/types";
 import StudentTable from "./StudentTable";
 
 export default async function page() {
-    var data: Student[] = await db.select().from(students);
+    const data: Student[] = await db
+        .select()
+        .from(students)
+        .orderBy(students.last_name);
     return (
         <div>
             <StudentTable initial_data={data} />
