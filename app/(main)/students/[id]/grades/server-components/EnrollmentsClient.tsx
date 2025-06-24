@@ -1,6 +1,15 @@
 "use client";
-
-import { addEnrollmentSubject } from "@/actions/students/grades/add-enrollment-subject";
+import {
+    addEnrollmentSubject,
+    checkDuplicateEntry,
+    checkNoGradeEnrolledSubject,
+} from "@/actions/students/grades/add-enrollment-subject";
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion";
 import {
     Card,
     CardAction,
@@ -11,7 +20,14 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { getOrdinal } from "@/lib/utils";
-import { DndContext, DragEndEvent, UniqueIdentifier } from "@dnd-kit/core";
+import { Subject } from "@/types";
+import {
+    DndContext,
+    DragEndEvent,
+    DragOverlay,
+    UniqueIdentifier,
+} from "@dnd-kit/core";
+import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { CircleAlertIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -42,8 +58,11 @@ export default function EnrollmentsClient({
 }) {
     const [dragging, setDragging] = useState(false);
     const [activeId, setActiveId] = useState<UniqueIdentifier>();
+    const [draggedSubject, setDraggedSubject] = useState<Subject>();
 
     function handleDragStart(event: DragEndEvent) {
+        console.log(event);
+
         setDragging(true);
         setActiveId(event.active.id);
     }
@@ -56,11 +75,32 @@ export default function EnrollmentsClient({
 
         if (!enrollment_id) return;
 
-        setSS(
-            searched_subjects.filter((item) => {
-                return item.id != subject_id;
-            })
+        const check_response = await checkDuplicateEntry(
+            Number(enrollment_id),
+            Number(subject_id)
         );
+
+        if (!check_response.status) {
+            toast.warning("Duplicate entry", {
+                description: check_response.message,
+            });
+
+            return;
+        }
+
+        const cnges_response = await checkNoGradeEnrolledSubject(
+            Number(enrollment_id),
+            Number(subject_id),
+            student_id
+        );
+
+        if (!cnges_response.status) {
+            toast.info("Cannot proceed", {
+                description: cnges_response.message,
+            });
+
+            return;
+        }
 
         const response = addEnrollmentSubject(
             Number(enrollment_id),
@@ -107,6 +147,7 @@ export default function EnrollmentsClient({
                     />
                 ))}
             </div>
+            {/* <DragOverlay className="w-full"> */}
             <div className="flex flex-col w-1/4">
                 {/* max-h-[calc(100dvh-(--spacing(12)))] */}
                 <Card className="w-full border-0 shadow-none top-0 sticky ">
@@ -124,61 +165,104 @@ export default function EnrollmentsClient({
                             />
                         </div>
                         <div className="flex flex-col gap-4">
-                            {year_levels_and_semesters.map(
-                                (item, superindex) => (
-                                    <div key={superindex} className="">
-                                        <div className="font-semibold">
-                                            {getOrdinal(item.year_level)} year
-                                            {" | "}
-                                            {getOrdinal(item.semester)} semester
-                                        </div>
-                                        <div>
-                                            {searched_subjects
-                                                .filter((subject) => {
-                                                    return (
-                                                        subject.year_level ==
-                                                            item.year_level &&
-                                                        subject.semester ==
-                                                            item.semester
-                                                    );
-                                                })
-                                                .map((subject, index) => (
-                                                    <DraggableSubject
-                                                        key={index}
-                                                        subject_id={subject.id}
-                                                        className={` ${dragging && activeId == subject.id ? "bg-red-700 text-white shadow-xl/50 " : "border-white shadow-none"}`}
-                                                    >
-                                                        {subject.code}
-                                                    </DraggableSubject>
-                                                ))}
+                            <Accordion type="multiple">
+                                {year_levels_and_semesters.map(
+                                    (item, superindex) => (
+                                        <AccordionItem
+                                            key={superindex}
+                                            value={`${superindex}`}
+                                        >
+                                            <AccordionTrigger>
+                                                <div className="font-semibold">
+                                                    {getOrdinal(
+                                                        item.year_level
+                                                    )}{" "}
+                                                    year
+                                                    {" | "}
+                                                    {getOrdinal(
+                                                        item.semester
+                                                    )}{" "}
+                                                    semester
+                                                </div>
+                                            </AccordionTrigger>
+                                            <AccordionContent>
+                                                <div>
+                                                    {searched_subjects
+                                                        .filter((subject) => {
+                                                            return (
+                                                                subject.year_level ==
+                                                                    item.year_level &&
+                                                                subject.semester ==
+                                                                    item.semester
+                                                            );
+                                                        })
+                                                        .map(
+                                                            (
+                                                                subject,
+                                                                index
+                                                            ) => (
+                                                                <DraggableSubject
+                                                                    key={index}
+                                                                    onDrag={(
+                                                                        data
+                                                                    ) =>
+                                                                        setDraggedSubject(
+                                                                            data
+                                                                        )
+                                                                    }
+                                                                    drag_id={
+                                                                        subject.id
+                                                                    }
+                                                                    subject={
+                                                                        subject
+                                                                    }
+                                                                    className={` ${dragging && activeId == subject.id ? "opacity-0 cursor-grabbing" : "border-white shadow-none cursor-grab"}`}
+                                                                />
+                                                            )
+                                                        )}
 
-                                            <div>
-                                                {searched_subjects.filter(
-                                                    (subject) => {
-                                                        return (
-                                                            subject.year_level ==
-                                                                item.year_level &&
-                                                            subject.semester ==
-                                                                item.semester
-                                                        );
-                                                    }
-                                                ).length <= 0 && (
-                                                    <div className="text-blue-700 bg-blue-50 flex gap-1 py-2 px-2 text-sm">
-                                                        <CircleAlertIcon
-                                                            size={20}
-                                                        />{" "}
-                                                        No item
+                                                    <div>
+                                                        {searched_subjects.filter(
+                                                            (subject) => {
+                                                                return (
+                                                                    subject.year_level ==
+                                                                        item.year_level &&
+                                                                    subject.semester ==
+                                                                        item.semester
+                                                                );
+                                                            }
+                                                        ).length <= 0 && (
+                                                            <div className="text-blue-700 bg-blue-50 flex gap-1 py-2 px-2 text-sm">
+                                                                <CircleAlertIcon
+                                                                    size={20}
+                                                                />{" "}
+                                                                No item
+                                                            </div>
+                                                        )}
                                                     </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )
-                            )}
+                                                </div>
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                    )
+                                )}
+                            </Accordion>
                         </div>
                     </CardContent>
                 </Card>
             </div>
+            {/* </DragOverlay> */}
+            <DragOverlay
+                modifiers={[restrictToWindowEdges]}
+                dropAnimation={null}
+            >
+                {draggedSubject && (
+                    <DraggableSubject
+                        drag_id={Number(activeId)}
+                        subject={draggedSubject}
+                        className={` ${dragging ? "bg-red-700 text-white shadow-xl/50 cursor-grabbing" : "border-white shadow-none cursor-grab"}`}
+                    />
+                )}
+            </DragOverlay>
         </DndContext>
     );
 }

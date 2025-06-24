@@ -83,9 +83,8 @@ export default function AddGradeForm({
             <Dialog>
                 <DialogTrigger asChild>
                     <Button
-                        variant="outline"
-                        size={"icon"}
-                        className="border-0 shadow-none bg-gray-200 text-amber-600 hover:bg-amber-600 hover:text-white"
+                        variant="ghost"
+                        className="w-0 h-0 p-3 shadow-none bg-gray-200 text-amber-600 hover:bg-amber-600 hover:text-white"
                     >
                         <SquarePen />
                     </Button>

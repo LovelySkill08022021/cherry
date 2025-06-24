@@ -63,7 +63,7 @@ export default function EnlistedSubject({
                         onClick={handleRemoveEnlistment}
                         variant={"ghost"}
                         size={"icon"}
-                        className="bg-gray-200 text-red-700 hover:bg-red-700 hover:text-white"
+                        className="w-0 h-0 p-3 bg-gray-200 text-red-700 hover:bg-red-700 hover:text-white"
                     >
                         {pending ? (
                             <LoaderCircle

@@ -22,7 +22,7 @@ export default function YearLevel(props: Props) {
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-5">
-                    <div className="flex w-full gap-5">
+                    <div className="flex 2xl:flex-row flex-col w-full gap-5">
                         {props.year_level_data.semesters.map(
                             (semester, index) => {
                                 if (semester.semester < 3) {

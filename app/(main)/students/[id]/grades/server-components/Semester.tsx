@@ -20,6 +20,7 @@ import { getOrdinal } from "@/lib/utils";
 import { useDroppable } from "@dnd-kit/core";
 import EnlistedSubject from "./EnlistedSubject";
 import { SemesterData } from "./EnrollmentsServer";
+import GWA from "./GWA";
 import RemoveEnrollmentForm from "./RemoveEnrollmentForm";
 type Props = {
     year_level: number;
@@ -41,7 +42,7 @@ export default function Semester(props: Props) {
         <>
             <Card
                 ref={setNodeRef}
-                className={`w-1/2 hover:bg-gray-100 border-0 shadow-none bg-gray-50 semester transition-all duration-200 ${props.dragging ? "border-2 border-green-400 bg-green-50" : "border-2 border-white"}`}
+                className={`2xl:w-1/2 w-full hover:bg-gray-100 border-0 shadow-none bg-gray-50 semester transition-all duration-200 ${props.dragging ? "border-2 border-green-400 bg-green-50" : "border-2 border-white"}`}
             >
                 <CardHeader>
                     <CardTitle>
@@ -62,7 +63,9 @@ export default function Semester(props: Props) {
                 <CardContent>
                     {props.semester.subjects.length <= 0 ? (
                         <div className="text-gray-500">
-                            <i>Drop here</i>
+                            <i>
+                                Grab a subject on the right side and drop here
+                            </i>
                         </div>
                     ) : (
                         <Table>
@@ -97,7 +100,18 @@ export default function Semester(props: Props) {
                         <div className="flex w-full justify-between">
                             Max allowed units:
                             <div>Units: {total_units}</div>
-                            <div>GWA: 0</div>
+                            <div className="text-wrap z-50">
+                                GWA:{" "}
+                                {props.semester.subjects.length > 0 ? (
+                                    <GWA
+                                        subjects_with_grades={
+                                            props.semester.subjects
+                                        }
+                                    />
+                                ) : (
+                                    "N/A"
+                                )}
+                            </div>
                         </div>
                         <div className="font-semibold">
                             {props.semester.semester == 3

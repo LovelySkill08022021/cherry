@@ -66,6 +66,7 @@ export default async function Enrollments(props: Props) {
                 .selectDistinct({ year_level: enrollments.year_level })
                 .from(enrollments)
                 .where(eq(enrollments.student_id, props.student_id))
+                .orderBy(enrollments.year_level)
         ).map((item) => {
             return item.year_level;
         });
@@ -221,19 +222,19 @@ export default async function Enrollments(props: Props) {
                 }
             }
 
-            console.log(subject_id, has_passed_grade);
+            // console.log(subject_id, has_passed_grade);
 
             if (has_passed_grade) {
                 enrolled_and_passed_subjects.push(subject_id);
             }
 
-            console.log(enrolled_and_passed_subjects);
+            // console.log(enrolled_and_passed_subjects);
         }
 
-        console.log(
-            "enrolled_and_passed_subjects",
-            enrolled_and_passed_subjects
-        );
+        // console.log(
+        //     "enrolled_and_passed_subjects",
+        //     enrolled_and_passed_subjects
+        // );
 
         const temp_subjects = (
             await tx

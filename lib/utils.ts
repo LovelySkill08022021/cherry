@@ -15,6 +15,11 @@ export function getOrdinal(n: number) {
     return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
 
+export function isGradePassed(grade: number) {
+    if (grade <= 3) return true;
+    return false;
+}
+
 export async function getSubjectPrerequisites(
     curriculum: Curriculum,
     subject: Subject
