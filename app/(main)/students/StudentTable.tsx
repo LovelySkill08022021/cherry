@@ -1,14 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
     Table,
@@ -19,8 +11,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Student } from "@/types";
-import { MoreVertical } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useActionState } from "react";
 import { searchGetStudents } from "./action";
 
@@ -29,6 +20,8 @@ export default function StudentTable({
 }: {
     initial_data: Student[];
 }) {
+    const router = useRouter();
+
     const [student_list, action, pending] = useActionState(
         searchGetStudents,
         initial_data
@@ -70,14 +63,22 @@ export default function StudentTable({
                             </TableRow>
                         )}
                         {student_list?.map((student) => (
-                            <TableRow key={student.id}>
+                            <TableRow
+                                key={student.id}
+                                className="hover:bg-gray-200 cursor-pointer text-gray-700 hover:text-black"
+                                onClick={() =>
+                                    router.push(
+                                        `/students/${student.id}/prospectus`
+                                    )
+                                }
+                            >
                                 <TableCell>{student.student_number}</TableCell>
                                 <TableCell>{student.last_name}</TableCell>
                                 <TableCell>{student.first_name}</TableCell>
                                 <TableCell>{student.middle_name}</TableCell>
                                 <TableCell>{student.year_level}</TableCell>
                                 <TableCell>{student.section}</TableCell>
-                                <TableCell>
+                                {/* <TableCell>
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                             <Button
@@ -108,7 +109,7 @@ export default function StudentTable({
                                             </Link>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
-                                </TableCell>
+                                </TableCell> */}
                             </TableRow>
                         ))}
                     </TableBody>

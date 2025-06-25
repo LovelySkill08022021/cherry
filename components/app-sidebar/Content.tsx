@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, Home, LibraryBig, Settings, User } from "lucide-react";
+import { FileText, Flag, Home, LibraryBig, User } from "lucide-react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -39,9 +39,9 @@ export default function Content() {
             icon: LibraryBig,
         },
         {
-            title: "Settings",
-            url: "/settings",
-            icon: Settings,
+            title: "Reports",
+            url: "/reports",
+            icon: Flag,
         },
     ];
     return (

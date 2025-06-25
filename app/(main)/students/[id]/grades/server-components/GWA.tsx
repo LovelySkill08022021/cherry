@@ -26,7 +26,7 @@ export default function GWA({
 
     return (
         <span className="font-bold text-red-600">
-            {(gwa / total_units).toFixed(3)}
+            {gwa == 0 ? "N/A" : (gwa / total_units).toFixed(3)}
         </span>
     );
 }

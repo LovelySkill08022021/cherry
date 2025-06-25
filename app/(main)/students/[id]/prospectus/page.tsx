@@ -1,15 +1,12 @@
-import BackButton from "@/components/BackButton";
 import { db } from "@/db";
 import {
     curriculum_students,
     curriculum_subjects,
-    students,
     subjects,
 } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 import StudentStatus from "@/components/StudentStatus";
-import Link from "next/link";
 import YearLevel from "./server-components/YearLevel";
 
 export default async function page({
@@ -18,9 +15,6 @@ export default async function page({
     params: Promise<{ id: number }>;
 }) {
     const { id } = await params;
-    const student = (
-        await db.select().from(students).where(eq(students.id, id)).limit(1)
-    )[0];
 
     const student_curriculum = (
         await db
@@ -41,16 +35,7 @@ export default async function page({
     // const year_level
     return (
         <div className="">
-            <div className="mb-5">
-                <Link href={`/students`}>
-                    <BackButton />
-                </Link>
-            </div>
             <div className="mb-5 space-y-1">
-                <div className="text-3xl font-semibold">
-                    {student.first_name} {student.middle_name}{" "}
-                    {student.last_name}
-                </div>
                 <div>
                     <StudentStatus student_id={id} />
                 </div>

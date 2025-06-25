@@ -16,18 +16,6 @@ export default async function Prerequisite({
     curriculum_id: number;
     type: string | null;
 }) {
-    // await new Promise((resolve) =>
-    //     setTimeout(resolve, 1000 + Math.random() * 5000)
-    // );
-    // const prereq_type = await db
-    //     .select()
-    //     .from(prerequisites)
-    //     .where(
-    //         and(
-    //             eq(prerequisites.curriculum_id, curriculum_id),
-    //             eq(prerequisites.prerequisite, prerequisite)
-    //         )
-    //     );
     if (type == "std") {
         return (
             <div className="mb-1">
@@ -49,7 +37,10 @@ export default async function Prerequisite({
 
     return (
         <div className="mb-1">
-            <Badge variant={"outline"} className="border-0 bg-gray-200">
+            <Badge
+                variant={"outline"}
+                className={`border-0 ${type == "pre" ? "bg-purple-200" : "bg-blue-200"}`}
+            >
                 {subject.code}
                 <Remove
                     prerequisite={prerequisite}
