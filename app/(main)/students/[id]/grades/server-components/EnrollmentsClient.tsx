@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/accordion";
 import {
     Card,
-    CardAction,
     CardContent,
     CardDescription,
     CardHeader,
@@ -147,110 +146,91 @@ export default function EnrollmentsClient({
                     />
                 ))}
             </div>
-            {/* <DragOverlay className="w-full"> */}
-            <div className="flex flex-col w-1/4">
-                {/* max-h-[calc(100dvh-(--spacing(12)))] */}
-                <Card className="w-full border-0 shadow-none top-0 sticky ">
+            <div className="w-1/4">
+                <Card className="w-full border-0 shadow-none top-0 sticky  max-h-[calc(100dvh-(--spacing(10)))]">
                     <CardHeader>
                         <CardTitle>Subject</CardTitle>
                         <CardDescription>Available subjects</CardDescription>
-                        <CardAction>Card Action</CardAction>
-                    </CardHeader>
-                    <CardContent className="">
-                        <div className="mb-3">
+                        {/* <CardAction>Card Action</CardAction> */}
+
+                        <div className="">
                             <Input
                                 placeholder="Search subject"
                                 value={keyword}
                                 onChange={(e) => searchSubject(e.target.value)}
                             />
                         </div>
-                        <div className="flex flex-col gap-4">
-                            <Accordion type="multiple">
-                                {year_levels_and_semesters.map(
-                                    (item, superindex) => (
-                                        <AccordionItem
-                                            key={superindex}
-                                            value={`${superindex}`}
-                                        >
-                                            <AccordionTrigger>
-                                                <div className="font-semibold">
-                                                    {getOrdinal(
-                                                        item.year_level
-                                                    )}{" "}
-                                                    year
-                                                    {" | "}
-                                                    {getOrdinal(
-                                                        item.semester
-                                                    )}{" "}
-                                                    semester
-                                                </div>
-                                            </AccordionTrigger>
-                                            <AccordionContent>
+                    </CardHeader>
+                    <CardContent className="overflow-y-auto">
+                        <Accordion type="multiple">
+                            {year_levels_and_semesters.map(
+                                (item, superindex) => (
+                                    <AccordionItem
+                                        key={superindex}
+                                        value={`${superindex}`}
+                                    >
+                                        <AccordionTrigger>
+                                            <div className="font-semibold">
+                                                {getOrdinal(item.year_level)}{" "}
+                                                year
+                                                {" | "}
+                                                {getOrdinal(item.semester)}{" "}
+                                                semester
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent>
+                                            <div>
+                                                {searched_subjects
+                                                    .filter((subject) => {
+                                                        return (
+                                                            subject.year_level ==
+                                                                item.year_level &&
+                                                            subject.semester ==
+                                                                item.semester
+                                                        );
+                                                    })
+                                                    .map((subject, index) => (
+                                                        <DraggableSubject
+                                                            key={index}
+                                                            onDrag={(data) =>
+                                                                setDraggedSubject(
+                                                                    data
+                                                                )
+                                                            }
+                                                            drag_id={subject.id}
+                                                            subject={subject}
+                                                            className={` ${dragging && activeId == subject.id ? "opacity-0 cursor-grabbing" : "border-white shadow-none cursor-grab"}`}
+                                                        />
+                                                    ))}
+
                                                 <div>
-                                                    {searched_subjects
-                                                        .filter((subject) => {
+                                                    {searched_subjects.filter(
+                                                        (subject) => {
                                                             return (
                                                                 subject.year_level ==
                                                                     item.year_level &&
                                                                 subject.semester ==
                                                                     item.semester
                                                             );
-                                                        })
-                                                        .map(
-                                                            (
-                                                                subject,
-                                                                index
-                                                            ) => (
-                                                                <DraggableSubject
-                                                                    key={index}
-                                                                    onDrag={(
-                                                                        data
-                                                                    ) =>
-                                                                        setDraggedSubject(
-                                                                            data
-                                                                        )
-                                                                    }
-                                                                    drag_id={
-                                                                        subject.id
-                                                                    }
-                                                                    subject={
-                                                                        subject
-                                                                    }
-                                                                    className={` ${dragging && activeId == subject.id ? "opacity-0 cursor-grabbing" : "border-white shadow-none cursor-grab"}`}
-                                                                />
-                                                            )
-                                                        )}
-
-                                                    <div>
-                                                        {searched_subjects.filter(
-                                                            (subject) => {
-                                                                return (
-                                                                    subject.year_level ==
-                                                                        item.year_level &&
-                                                                    subject.semester ==
-                                                                        item.semester
-                                                                );
-                                                            }
-                                                        ).length <= 0 && (
-                                                            <div className="text-blue-700 bg-blue-50 flex gap-1 py-2 px-2 text-sm">
-                                                                <CircleAlertIcon
-                                                                    size={20}
-                                                                />{" "}
-                                                                No item
-                                                            </div>
-                                                        )}
-                                                    </div>
+                                                        }
+                                                    ).length <= 0 && (
+                                                        <div className="text-blue-700 bg-blue-50 flex gap-1 py-2 px-2 text-sm">
+                                                            <CircleAlertIcon
+                                                                size={20}
+                                                            />{" "}
+                                                            No item
+                                                        </div>
+                                                    )}
                                                 </div>
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    )
-                                )}
-                            </Accordion>
-                        </div>
+                                            </div>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                )
+                            )}
+                        </Accordion>
                     </CardContent>
                 </Card>
             </div>
-            {/* </DragOverlay> */}
             <DragOverlay
                 modifiers={[restrictToWindowEdges]}
                 dropAnimation={null}

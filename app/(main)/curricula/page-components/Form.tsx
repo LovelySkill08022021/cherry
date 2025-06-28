@@ -11,6 +11,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Save } from "lucide-react";
@@ -31,19 +32,7 @@ export default function Form({
         <>
             <div className="">
                 <Dialog>
-                    <DialogTrigger asChild>
-                        {triggerComponent}
-                        {/* {mode == "add" ? (
-                            <Button>
-                                <Grid2x2Plus />
-                                New
-                            </Button>
-                        ) : (
-                            <Button variant={"ghost"}>
-                                <MoreHorizontal />
-                            </Button>
-                        )} */}
-                    </DialogTrigger>
+                    <DialogTrigger asChild>{triggerComponent}</DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
                         <form action={formAction}>
                             <DialogHeader>
@@ -91,7 +80,7 @@ export default function Form({
                                 </div>
                             </div>
                             <DialogFooter>
-                                <Button type="submit">
+                                <Button type="submit" disabled={isPending}>
                                     <Save />
                                     {mode == "add"
                                         ? isPending

@@ -95,6 +95,7 @@ export const enrollments = mysqlTable("enrollments", {
     student_id: bigint({ mode: "number", unsigned: true }).notNull(),
     semester: tinyint().notNull(),
     year_level: tinyint().notNull(),
+    sy: varchar({ length: 100 }).notNull(),
 });
 
 export const enrollment_subjects = mysqlTable("enrollment_subjects", {

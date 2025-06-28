@@ -32,7 +32,7 @@ export default async function StudentPageLayout({
                 />
                 <NavButton label={`Grades`} link={`/students/${id}/grades`} />
             </div>
-            <div className="text-3xl font-semibold sticky  z-100">
+            <div className="text-3xl font-semibold sticky">
                 <div className="backdrop-blur-sm px-[12px] py-2 translate-x-[-12px] inline-block rounded-lg">
                     {student.first_name} {student.middle_name}{" "}
                     {student.last_name}

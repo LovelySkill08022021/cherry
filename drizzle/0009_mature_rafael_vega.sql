@@ -1,0 +1,1 @@
+ALTER TABLE `enrollments` ADD `sy` varchar(100) NOT NULL;

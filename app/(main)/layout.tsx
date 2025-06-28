@@ -14,7 +14,7 @@ export default async function Layout({
             <div className="w-full">
                 <div className="p-5 w-full bg-gray-100 h-screen overflow-y-auto ">
                     <SidebarTrigger />
-                    <div className="px-10 py-5">{children}</div>
+                    <div className="px-10 pt-5">{children}</div>
                     {/* <main className="p-3 border-s-1"></main> */}
                 </div>
             </div>

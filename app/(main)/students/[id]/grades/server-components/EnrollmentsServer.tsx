@@ -275,7 +275,7 @@ export default async function Enrollments(props: Props) {
 
     return (
         <>
-            <div className="flex gap-5">
+            <div className="flex h-1/2 gap-5">
                 <EnrollmentsClient
                     student_id={props.student_id}
                     enrollment_data={enrollment_data}

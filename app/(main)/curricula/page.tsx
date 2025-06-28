@@ -21,6 +21,7 @@ import { db } from "@/db";
 import { curricula } from "@/db/schema";
 import { Grid2x2Plus, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
+import EditForm from "./page-components/EditForm";
 import Form from "./page-components/Form";
 
 export default async function page() {
@@ -79,15 +80,8 @@ export default async function page() {
                                                 Actions
                                             </DropdownMenuLabel>
                                             <DropdownMenuSeparator />
-                                            <Form
-                                                mode="edit"
-                                                data={curriculum}
-                                                triggerComponent={
-                                                    <DropdownMenuItem>
-                                                        Edit
-                                                    </DropdownMenuItem>
-                                                }
-                                            />
+                                            <EditForm data={curriculum} />
+
                                             <Link
                                                 href={`/curricula/${curriculum.id}/students`}
                                             >

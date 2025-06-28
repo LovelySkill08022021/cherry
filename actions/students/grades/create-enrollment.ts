@@ -8,6 +8,7 @@ type Form = {
     student_id: number;
     year_level: number;
     semester: number;
+    sy: string;
 };
 
 export async function createEnrollment(form: Form): Promise<{

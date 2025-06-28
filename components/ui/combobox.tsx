@@ -1,15 +1,12 @@
 "use client";
 
-import * as React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, SearchIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
     Command,
     CommandEmpty,
     CommandGroup,
-    CommandInput,
     CommandItem,
     CommandList,
 } from "@/components/ui/command";
@@ -18,6 +15,8 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 type Item = {
     value: string;
@@ -25,64 +24,89 @@ type Item = {
 };
 
 type Props = {
+    disabled?: boolean;
+    className?: string;
     items: Item[];
     buttonPlaceholder: string;
     inputPlaceholder: string;
     emptyMessage: string;
+    onSelectAction: (value: string) => void;
 };
 
 export function Combobox({
+    disabled,
+    className,
     items,
     buttonPlaceholder,
     inputPlaceholder,
     emptyMessage,
+    onSelectAction,
 }: Props) {
-    const [open, setOpen] = React.useState(false);
-    const [value, setValue] = React.useState("");
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState("");
+    const [seached_items, setSearchItems] = useState<Item[]>(items);
+
+    function searchItem(keyword: string) {
+        setSearchItems(
+            items.filter((item) => {
+                return item.label.toLowerCase().includes(keyword.toLowerCase());
+            })
+        );
+    }
+
+    function handleItemSelect(currentValue: string) {
+        setValue(currentValue === value ? "" : currentValue);
+        setOpen(false);
+        onSelectAction(currentValue);
+        setSearchItems(items);
+    }
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
                 <Button
+                    disabled={disabled}
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[200px] justify-between"
+                    className={`justify-between ${className}`}
                 >
                     {value
-                        ? items.find((framework) => framework.value === value)
-                              ?.label
+                        ? items.find((item) => item.value === value)?.label
                         : buttonPlaceholder}
                     <ChevronsUpDown className="opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">
                 <Command>
-                    <CommandInput
-                        placeholder={inputPlaceholder}
-                        className="h-9"
-                    />
+                    <div
+                        data-slot="command-input-wrapper"
+                        className="flex h-9 items-center gap-2 border-b px-3"
+                    >
+                        <SearchIcon className="size-4 shrink-0 opacity-50" />
+                        <input
+                            onChange={(e) => searchItem(e.target.value)}
+                            data-slot="command-input"
+                            className={
+                                "placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
+                            }
+                            placeholder={inputPlaceholder}
+                        />
+                    </div>
                     <CommandList>
                         <CommandEmpty>{emptyMessage}</CommandEmpty>
                         <CommandGroup>
-                            {items.map((framework) => (
+                            {seached_items.map((item, index) => (
                                 <CommandItem
-                                    key={framework.value}
-                                    value={framework.value}
-                                    onSelect={(currentValue) => {
-                                        setValue(
-                                            currentValue === value
-                                                ? ""
-                                                : currentValue
-                                        );
-                                        setOpen(false);
-                                    }}
+                                    key={index}
+                                    value={item.value}
+                                    onSelect={handleItemSelect}
                                 >
-                                    {framework.label}
+                                    {item.label}
                                     <Check
                                         className={cn(
                                             "ml-auto",
-                                            value === framework.value
+                                            value === item.value
                                                 ? "opacity-100"
                                                 : "opacity-0"
                                         )}

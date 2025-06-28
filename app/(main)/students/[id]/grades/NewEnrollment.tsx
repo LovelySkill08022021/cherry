@@ -11,6 +11,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import {
     Select,
     SelectContent,
@@ -20,29 +21,34 @@ import {
 } from "@/components/ui/select";
 import { getOrdinal } from "@/lib/utils";
 import { ClipboardPlus, LoaderCircle, Plus } from "lucide-react";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
+import { ValidYearLevel } from "./page";
 
 type Props = {
     student_id: number;
-    year_levels: number[];
+    valid_year_levels: ValidYearLevel[];
 };
 
 export default function NewEnrollment(props: Props) {
-    const semesters = [1, 2, 3];
+    const semesters_reference = [1, 2, 3];
+    const [semesters, setSemesters] = useState<number[]>();
 
     const [pending, startTransition] = useTransition();
     const [form, setForm] = useState({
+        student_id: props.student_id,
         year_level: "",
         semester: "",
+        sy: "",
     });
 
     function handleHandleSubmit() {
         startTransition(async () => {
             const response = await createEnrollment({
-                student_id: props.student_id,
+                student_id: form.student_id,
                 year_level: Number(form.year_level),
                 semester: Number(form.semester),
+                sy: form.sy,
             });
 
             if (response.status == "warning") {
@@ -63,8 +69,69 @@ export default function NewEnrollment(props: Props) {
             toast.success("Message", {
                 description: response.message,
             });
+
+            setForm({
+                ...form,
+                year_level: "",
+                semester: "",
+            });
         });
     }
+
+    function handleYearLevelChange(value: string): void {
+        setForm({ ...form, year_level: value });
+
+        let used_semesters_reference: number[] = [];
+
+        for (const valid_year_level of props.valid_year_levels) {
+            if (Number(value) == valid_year_level.year_level) {
+                used_semesters_reference = valid_year_level.used_semesters;
+                break;
+            }
+        }
+
+        const valid_semesters = semesters_reference.filter((semester) => {
+            const is_used = used_semesters_reference.includes(semester);
+            return !is_used;
+        });
+
+        setSemesters(valid_semesters);
+    }
+
+    function SemesterOptions() {
+        return semesters?.map((item, index) => {
+            if (item == 3) {
+                return (
+                    <SelectItem key={index} value={String(item)}>
+                        Mid year
+                    </SelectItem>
+                );
+            }
+            return (
+                <SelectItem key={index} value={String(item)}>
+                    {getOrdinal(item)} semester
+                </SelectItem>
+            );
+        });
+    }
+
+    useEffect(() => {
+        const d = new Date(Date.now());
+        const month = d.getMonth() + 1;
+        const year = d.getFullYear();
+        let current_sy = "";
+
+        if (month <= 6) {
+            current_sy = `SY ${year - 1}-${year}`;
+        } else {
+            current_sy = `SY ${year}-${year + 1}`;
+        }
+
+        setForm({
+            ...form,
+            sy: current_sy,
+        });
+    }, []);
 
     return (
         <Dialog>
@@ -81,24 +148,37 @@ export default function NewEnrollment(props: Props) {
                     </DialogDescription> */}
                 </DialogHeader>
                 {/* {JSON.stringify(form)} */}
+                {/* <div>
+                    used_semesters: {JSON.stringify(props.valid_year_levels)}
+                </div> */}
+                {/* <div>{semesters}</div> */}
+                <div>
+                    <Input
+                        autoFocus={false}
+                        value={form.sy}
+                        onChange={(e) =>
+                            setForm({ ...form, sy: e.target.value })
+                        }
+                    />
+                </div>
                 <div className="flex gap-2">
                     <div className="w-1/2">
                         <Select
                             onValueChange={(value) =>
-                                setForm({ ...form, year_level: value })
+                                handleYearLevelChange(value)
                             }
-                            defaultValue={form.year_level}
+                            value={form.year_level}
                         >
                             <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Year Level" />
                             </SelectTrigger>
                             <SelectContent>
-                                {props.year_levels.map((item, index) => (
+                                {props.valid_year_levels.map((item, index) => (
                                     <SelectItem
                                         key={index}
-                                        value={String(item)}
+                                        value={String(item.year_level)}
                                     >
-                                        {getOrdinal(item)} year
+                                        {getOrdinal(item.year_level)} year
                                     </SelectItem>
                                 ))}
                             </SelectContent>
@@ -109,32 +189,13 @@ export default function NewEnrollment(props: Props) {
                             onValueChange={(value) =>
                                 setForm({ ...form, semester: value })
                             }
-                            defaultValue={form.semester}
+                            value={form.semester}
                         >
                             <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Semester" />
                             </SelectTrigger>
                             <SelectContent>
-                                {semesters.map((item, index) => {
-                                    if (item == 3) {
-                                        return (
-                                            <SelectItem
-                                                key={index}
-                                                value={String(item)}
-                                            >
-                                                Mid year
-                                            </SelectItem>
-                                        );
-                                    }
-                                    return (
-                                        <SelectItem
-                                            key={index}
-                                            value={String(item)}
-                                        >
-                                            {getOrdinal(item)} semester
-                                        </SelectItem>
-                                    );
-                                })}
+                                <SemesterOptions />
                             </SelectContent>
                         </Select>
                     </div>
