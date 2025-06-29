@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { prerequisites } from "@/db/schema";
+import { prerequisites, subjects } from "@/db/schema";
 import { Curriculum, Subject } from "@/types";
 import { clsx, type ClassValue } from "clsx";
 import { and, eq } from "drizzle-orm";
@@ -20,7 +20,7 @@ export function isGradePassed(grade: number) {
     return false;
 }
 
-export async function getSubjectPrerequisites(
+export async function getSubjectPrerequisites( // unused
     curriculum: Curriculum,
     subject: Subject
 ) {
@@ -64,3 +64,38 @@ export async function getSubjectPrerequisites(
 //         await getFailedPrerequisites(curriculum_id, prerequisite.subject_id);
 //     });
 // }
+
+export async function getSubjectTree() {
+    return await db.select().from(subjects);
+}
+
+export function getStudentStanding(student_id: number) {
+    // unused
+    return 2;
+}
+
+export function getGradeRemarks(value: number) {
+    if (value <= 3) {
+        return "Passed";
+    }
+
+    if (value == 4) {
+        return "Conditional";
+    }
+
+    if (value == 5) {
+        return "Failed";
+    }
+
+    if (value == 6) {
+        return "INC";
+    }
+
+    if (value == 7) {
+        return "IP";
+    }
+
+    if (value == 8) {
+        return "DRP";
+    }
+}

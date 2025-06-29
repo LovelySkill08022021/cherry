@@ -35,10 +35,11 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Curriculum, Student } from "@/types";
+import { Student } from "@/types";
 import { useEffect, useState } from "react";
 
-export default function SubjectStudents(props: { curricula: Curriculum[] }) {
+// props: { curricula: Curriculum[] }
+export default function SubjectStudents() {
     const d = new Date(Date.now());
     const month = d.getMonth() + 1;
     const year = d.getFullYear();
@@ -46,7 +47,7 @@ export default function SubjectStudents(props: { curricula: Curriculum[] }) {
     const [subject_students, setSubjectStudent] = useState<
         SubjectStudentsType[]
     >([]);
-    const [current_sy, setCurrentSy] = useState(() => {
+    const [current_sy] = useState(() => {
         if (month <= 6) {
             return `SY ${year - 1}-${year}`;
         } else {

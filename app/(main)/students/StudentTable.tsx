@@ -10,6 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { getStudentStanding } from "@/lib/utils";
 import { Student } from "@/types";
 import { useRouter } from "next/navigation";
 import { useActionState } from "react";
@@ -31,7 +32,11 @@ export default function StudentTable({
         <>
             <form action={action}>
                 <div className="flex gap-3 mb-5 w-1/2">
-                    <Input name="keyword" placeholder="Search student" />
+                    <Input
+                        className="bg-gray-200"
+                        name="keyword"
+                        placeholder="Search student"
+                    />
                     <Button disabled={pending}>
                         {pending ? "Searching..." : "Search"}
                     </Button>
@@ -47,7 +52,7 @@ export default function StudentTable({
                             <TableHead>Middle Name</TableHead>
                             <TableHead>Year Level</TableHead>
                             <TableHead>Section</TableHead>
-                            <TableHead></TableHead>
+                            <TableHead>Standing</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -78,6 +83,9 @@ export default function StudentTable({
                                 <TableCell>{student.middle_name}</TableCell>
                                 <TableCell>{student.year_level}</TableCell>
                                 <TableCell>{student.section}</TableCell>
+                                <TableCell>
+                                    {getStudentStanding(student.id)}
+                                </TableCell>
                                 {/* <TableCell>
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>

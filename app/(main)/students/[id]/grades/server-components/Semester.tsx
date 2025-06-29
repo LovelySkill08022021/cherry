@@ -27,6 +27,7 @@ type Props = {
     semester: SemesterData;
     dragging: boolean;
     student_id: number;
+    curriculum_id: number;
 };
 export default function Semester(props: Props) {
     const { setNodeRef } = useDroppable({
@@ -88,6 +89,7 @@ export default function Semester(props: Props) {
                                                 props.semester.enrollment_id
                                             }
                                             subject_with_grade={subject}
+                                            curriculum_id={props.curriculum_id}
                                         />
                                     )
                                 )}

@@ -3,6 +3,7 @@ import {
     curriculum_students,
     curriculum_subjects,
     grades,
+    prerequisites,
     students,
     subjects,
 } from "./db/schema";
@@ -24,3 +25,6 @@ type SubjectForm = typeof subjects.$inferInsert;
 
 type Student = typeof students.$inferSelect;
 type StudentForm = typeof students.$inferInsert;
+
+type Prerequisite = typeof prerequisites.$inferSelect;
+type PrerequisiteForm = typeof prerequisites.$inferInsert;

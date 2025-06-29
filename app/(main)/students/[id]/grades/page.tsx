@@ -22,19 +22,6 @@ export default async function page({
     const { id } = await params;
 
     const valid_year_levels = await db.transaction(async (tx) => {
-        // const used_year_levels = (
-        //     await tx
-        //         .select({ year_level: enrollments.year_level })
-        //         .from(enrollments)
-        //         .where(eq(enrollments.student_id, id))
-        //         .orderBy(asc(enrollments.year_level))
-        //         .groupBy(enrollments.year_level)
-        // ).map((item) => {
-        //     return item.year_level;
-        // });
-        // console.log("used_year_levels", used_year_levels);
-
-        // const
         const temp_year_levels = (
             await tx
                 .select()

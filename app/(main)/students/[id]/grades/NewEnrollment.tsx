@@ -140,7 +140,7 @@ export default function NewEnrollment(props: Props) {
                     <Plus /> New enrollment
                 </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="w-[400px]">
                 <DialogHeader>
                     <DialogTitle>Create new enrollment</DialogTitle>
                     {/* <DialogDescription>

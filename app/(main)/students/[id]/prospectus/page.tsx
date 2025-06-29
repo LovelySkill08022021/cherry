@@ -1,11 +1,8 @@
 import { db } from "@/db";
-import {
-    curriculum_students,
-    curriculum_subjects,
-    subjects,
-} from "@/db/schema";
+import { curriculum_subjects, subjects } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
+import { getStudentCurriculum } from "@/actions/server_utils";
 import StudentStatus from "@/components/StudentStatus";
 import YearLevel from "./server-components/YearLevel";
 
@@ -16,12 +13,7 @@ export default async function page({
 }) {
     const { id } = await params;
 
-    const student_curriculum = (
-        await db
-            .select()
-            .from(curriculum_students)
-            .where(eq(curriculum_students.student_id, id))
-    )[0].curriculum_id;
+    const student_curriculum = await getStudentCurriculum(id);
 
     const year_levels = await db
         .selectDistinct({

@@ -1,3 +1,4 @@
+import { getStudentCurriculum } from "@/actions/server_utils";
 import { db } from "@/db";
 import {
     curriculum_students,
@@ -25,6 +26,7 @@ export type SemesterData = {
 
 export type YearLevelData = {
     year_level: number;
+    sy: string;
     semesters: SemesterData[];
 };
 
@@ -33,15 +35,8 @@ type Props = {
 };
 
 export default async function Enrollments(props: Props) {
+    const student_curriculum = await getStudentCurriculum(props.student_id);
     const year_levels_and_semesters = await db.transaction(async (tx) => {
-        const student_curriculum = (
-            await tx
-                .select()
-                .from(curriculum_students)
-                .where(eq(curriculum_students.student_id, props.student_id))
-                .limit(1)
-        )[0].curriculum_id;
-
         const temp_year_levels_and_semesters = await tx
             .select({
                 year_level: curriculum_subjects.year_level,
@@ -61,27 +56,30 @@ export default async function Enrollments(props: Props) {
     });
 
     const enrollment_data = await db.transaction(async (tx) => {
-        const year_levels = (
-            await tx
-                .selectDistinct({ year_level: enrollments.year_level })
-                .from(enrollments)
-                .where(eq(enrollments.student_id, props.student_id))
-                .orderBy(enrollments.year_level)
-        ).map((item) => {
-            return item.year_level;
-        });
+        const year_levels = await tx
+            .selectDistinct({
+                year_level: enrollments.year_level,
+                sy: enrollments.sy,
+            })
+            .from(enrollments)
+            .where(eq(enrollments.student_id, props.student_id))
+            .orderBy(enrollments.year_level);
 
         const temp_data: YearLevelData[] = [];
 
         year_levels.forEach(async (item) => {
-            const data: YearLevelData = { year_level: item, semesters: [] };
+            const data: YearLevelData = {
+                year_level: item.year_level,
+                sy: item.sy,
+                semesters: [],
+            };
             const semesters = (
                 await tx
                     .select()
                     .from(enrollments)
                     .where(
                         and(
-                            eq(enrollments.year_level, item),
+                            eq(enrollments.year_level, item.year_level),
                             eq(enrollments.student_id, props.student_id)
                         )
                     )
@@ -106,7 +104,7 @@ export default async function Enrollments(props: Props) {
                         .from(enrollments)
                         .where(
                             and(
-                                eq(enrollments.year_level, item),
+                                eq(enrollments.year_level, item.year_level),
                                 eq(enrollments.semester, semester.semester),
                                 eq(enrollments.student_id, props.student_id)
                             )
@@ -281,6 +279,7 @@ export default async function Enrollments(props: Props) {
                     enrollment_data={enrollment_data}
                     student_subjects={student_subjects}
                     year_levels_and_semesters={year_levels_and_semesters}
+                    curriculum_id={student_curriculum}
                 />
             </div>
         </>

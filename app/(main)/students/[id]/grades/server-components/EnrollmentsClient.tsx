@@ -35,11 +35,13 @@ import { YearLevelData } from "./EnrollmentsServer";
 import YearLevel from "./YearLevel";
 
 export default function EnrollmentsClient({
+    curriculum_id,
     student_id,
     enrollment_data,
     student_subjects,
     year_levels_and_semesters,
 }: {
+    curriculum_id: number;
     student_id: number;
     enrollment_data: YearLevelData[];
     student_subjects: {
@@ -143,6 +145,7 @@ export default function EnrollmentsClient({
                         student_id={student_id}
                         year_level_data={data}
                         dragging={dragging}
+                        curriculum_id={curriculum_id}
                     />
                 ))}
             </div>
@@ -199,6 +202,12 @@ export default function EnrollmentsClient({
                                                             }
                                                             drag_id={subject.id}
                                                             subject={subject}
+                                                            student_id={
+                                                                student_id
+                                                            }
+                                                            curriculum_id={
+                                                                curriculum_id
+                                                            }
                                                             className={` ${dragging && activeId == subject.id ? "opacity-0 cursor-grabbing" : "border-white shadow-none cursor-grab"}`}
                                                         />
                                                     ))}
@@ -240,6 +249,8 @@ export default function EnrollmentsClient({
                         drag_id={Number(activeId)}
                         subject={draggedSubject}
                         className={` ${dragging ? "bg-red-700 text-white shadow-xl/50 cursor-grabbing" : "border-white shadow-none cursor-grab"}`}
+                        student_id={student_id}
+                        curriculum_id={curriculum_id}
                     />
                 )}
             </DragOverlay>
