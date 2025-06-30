@@ -11,7 +11,7 @@ import {
 import { Prerequisite, Subject } from "@/types";
 import { and, asc, eq, or } from "drizzle-orm";
 
-export async function usePrereqTreeDepsData(curriculum_id: number): Promise<{
+export async function getPrereqTreeDepsData(curriculum_id: number): Promise<{
     prerequisite_list: Prerequisite[];
     subject_info: Subject[];
 }> {

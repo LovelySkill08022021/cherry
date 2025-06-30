@@ -1,6 +1,6 @@
 import {
+    getPrereqTreeDepsData,
     getStudentGrades,
-    usePrereqTreeDepsData,
 } from "@/actions/server_utils";
 import PrerequisiteTreeChart from "@/components/PrerequisiteTreeChart";
 import { Suspense } from "react";
@@ -19,8 +19,7 @@ export default async function ReportsPage() {
     // } else {
     //     current_sy = `SY ${year}-${year + 1}`;
     // }
-    const student_id = 5;
-    const deps = await usePrereqTreeDepsData(7);
+    const deps = await getPrereqTreeDepsData(7);
     const all_grades = await getStudentGrades(5);
 
     return (

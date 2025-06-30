@@ -99,7 +99,7 @@ export default function PrerequisiteTreeChart({
             };
         }
 
-        let root_node: RawNodeDatum = {
+        const root_node: RawNodeDatum = {
             name: String(subject_id),
             attributes: attr,
         };

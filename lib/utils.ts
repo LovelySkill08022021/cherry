@@ -71,7 +71,7 @@ export async function getSubjectTree() {
 
 export function getStudentStanding(student_id: number) {
     // unused
-    return 2;
+    return student_id;
 }
 
 export function getGradeRemarks(value: number) {

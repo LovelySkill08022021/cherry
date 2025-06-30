@@ -1,6 +1,6 @@
 import {
+    getPrereqTreeDepsData,
     getStudentGrades,
-    usePrereqTreeDepsData,
 } from "@/actions/server_utils";
 import PrerequisiteTreeChart from "@/components/PrerequisiteTreeChart";
 import {
@@ -29,7 +29,7 @@ export default function TreeViewer(props: {
     const [student_grades, setStudentGrades] = useState<Grade[]>([]);
 
     useEffect(() => {
-        usePrereqTreeDepsData(props.curriculum_id).then((res) => {
+        getPrereqTreeDepsData(props.curriculum_id).then((res) => {
             setDeps(res);
         });
 
