@@ -1,7 +1,3 @@
-import {
-    getPrereqTreeDepsData,
-    getStudentGrades,
-} from "@/actions/server_utils";
 import PrerequisiteTreeChart from "@/components/PrerequisiteTreeChart";
 import {
     Dialog,
@@ -12,7 +8,8 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Grade, Prerequisite, Subject } from "@/types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useStudentContext } from "../../../contexts/StudentContextProvider";
 
 export default function TreeViewer(props: {
     triggerComponent: React.ReactNode;
@@ -21,22 +18,15 @@ export default function TreeViewer(props: {
     student_id: number;
     className?: string;
 }) {
-    const [deps, setDeps] = useState<{
+    const student_context = useStudentContext();
+
+    const [deps] = useState<{
         prerequisite_list: Prerequisite[];
         subject_info: Subject[];
-    }>({ prerequisite_list: [], subject_info: [] });
+    }>(student_context.prereq_tree_deps_data);
 
-    const [student_grades, setStudentGrades] = useState<Grade[]>([]);
+    const [student_grades] = useState<Grade[]>(student_context.student_grades);
 
-    useEffect(() => {
-        getPrereqTreeDepsData(props.curriculum_id).then((res) => {
-            setDeps(res);
-        });
-
-        getStudentGrades(props.student_id).then((res) => {
-            setStudentGrades(res);
-        });
-    }, []);
     return (
         <Dialog>
             <DialogTrigger asChild>{props.triggerComponent}</DialogTrigger>

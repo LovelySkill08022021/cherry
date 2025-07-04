@@ -10,8 +10,9 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { getStudentStanding } from "@/lib/utils";
+import { getOrdinal } from "@/lib/utils";
 import { Student } from "@/types";
+import { ArrowDown, ChevronsUpDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useActionState } from "react";
 import { searchGetStudents } from "./action";
@@ -81,10 +82,25 @@ export default function StudentTable({
                                 <TableCell>{student.last_name}</TableCell>
                                 <TableCell>{student.first_name}</TableCell>
                                 <TableCell>{student.middle_name}</TableCell>
-                                <TableCell>{student.year_level}</TableCell>
-                                <TableCell>{student.section}</TableCell>
                                 <TableCell>
-                                    {getStudentStanding(student.id)}
+                                    {getOrdinal(student.year_level)} year
+                                </TableCell>
+                                <TableCell>{student.section}</TableCell>
+                                <TableCell className="flex items-center gap-1">
+                                    {student.standing < student.year_level ? (
+                                        <ArrowDown
+                                            size={16}
+                                            strokeWidth={4}
+                                            color="red"
+                                        />
+                                    ) : (
+                                        <ChevronsUpDown
+                                            size={16}
+                                            strokeWidth={4}
+                                            className="text-green-500"
+                                        />
+                                    )}
+                                    {getOrdinal(student.standing)} year
                                 </TableCell>
                                 {/* <TableCell>
                                     <DropdownMenu>

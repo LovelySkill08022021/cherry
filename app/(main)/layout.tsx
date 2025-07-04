@@ -1,3 +1,7 @@
+import {
+    updateStudentsStanding,
+    updateStudentsYearLevel,
+} from "@/actions/server_utils";
 import { AppSidebar } from "@/components/app-sidebar/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { cookies } from "next/headers";
@@ -8,6 +12,10 @@ export default async function Layout({
 }) {
     const cookieStore = await cookies();
     const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+
+    await updateStudentsYearLevel();
+    await updateStudentsStanding();
+
     return (
         <SidebarProvider defaultOpen={defaultOpen}>
             <AppSidebar />

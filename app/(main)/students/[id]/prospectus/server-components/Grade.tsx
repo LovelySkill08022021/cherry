@@ -1,8 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { db } from "@/db";
-import { grades } from "@/db/schema";
+import { enrollments, grades } from "@/db/schema";
 import { Subject } from "@/types";
-import { and, eq } from "drizzle-orm";
+import { and, asc, desc, eq } from "drizzle-orm";
 import { BookmarkX, Check, Loader, TriangleAlert, X } from "lucide-react";
 
 export default async function Grade({
@@ -15,25 +15,28 @@ export default async function Grade({
     // await new Promise((resolve) =>
     //     setTimeout(resolve, 1000 + Math.random() * 3000)
     // );
-    const student_grades = await db
-        .select()
-        .from(grades)
-        .where(
-            and(
-                eq(grades.subject_id, subject.id),
-                eq(grades.student_id, student_id)
+    const student_grades = (
+        await db
+            .select()
+            .from(grades)
+            .leftJoin(enrollments, eq(enrollments.id, grades.enrollment_id))
+            .where(
+                and(
+                    eq(grades.student_id, student_id),
+                    eq(grades.subject_id, subject.id)
+                )
             )
-        );
-
-    // if (student_grades.length <= 0) {
-    //     return (
-    //         <AddGradeForm
-    //             student_id={student_id}
-    //             subject_id={subject_id}
-    //             student_grades={student_grades}
-    //         />
-    //     );
-    // }
+            .orderBy(
+                asc(grades.subject_id),
+                desc(enrollments.year_level),
+                desc(enrollments.semester),
+                desc(grades.id)
+            )
+    )
+        .map((item) => {
+            return item.grades;
+        })
+        .reverse();
 
     return (
         <>

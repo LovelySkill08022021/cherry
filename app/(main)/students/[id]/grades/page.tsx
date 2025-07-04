@@ -1,4 +1,3 @@
-import StudentStatus from "@/components/StudentStatus";
 import { db } from "@/db";
 import {
     curriculum_students,
@@ -74,11 +73,6 @@ export default async function page({
 
     return (
         <>
-            <div className="mb-5 space-y-1">
-                <div>
-                    <StudentStatus student_id={id} />
-                </div>
-            </div>
             <div>
                 <div className="mb-5">
                     <NewEnrollment

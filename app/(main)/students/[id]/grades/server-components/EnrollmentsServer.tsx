@@ -10,6 +10,7 @@ import {
 } from "@/db/schema";
 import { Grade, Subject } from "@/types";
 import { and, asc, eq, notInArray } from "drizzle-orm";
+import { Suspense } from "react";
 import EnrollmentsClient from "./EnrollmentsClient";
 
 export type SubjectWithGrade = {
@@ -274,13 +275,15 @@ export default async function Enrollments(props: Props) {
     return (
         <>
             <div className="flex h-1/2 gap-5">
-                <EnrollmentsClient
-                    student_id={props.student_id}
-                    enrollment_data={enrollment_data}
-                    student_subjects={student_subjects}
-                    year_levels_and_semesters={year_levels_and_semesters}
-                    curriculum_id={student_curriculum}
-                />
+                <Suspense fallback={"Loading..."}>
+                    <EnrollmentsClient
+                        student_id={props.student_id}
+                        enrollment_data={enrollment_data}
+                        student_subjects={student_subjects}
+                        year_levels_and_semesters={year_levels_and_semesters}
+                        curriculum_id={student_curriculum}
+                    />
+                </Suspense>
             </div>
         </>
     );

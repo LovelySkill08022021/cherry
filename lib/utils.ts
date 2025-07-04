@@ -69,11 +69,6 @@ export async function getSubjectTree() {
     return await db.select().from(subjects);
 }
 
-export function getStudentStanding(student_id: number) {
-    // unused
-    return student_id;
-}
-
 export function getGradeRemarks(value: number) {
     if (value <= 3) {
         return "Passed";
