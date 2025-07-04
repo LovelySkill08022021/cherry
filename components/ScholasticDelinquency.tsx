@@ -19,7 +19,7 @@ export default async function ScholasticDelinquency(props: {
     return (
         <>
             <Badge className={severity}>
-                {sd.percentage}% {sd.remarks}
+                {sd.percentage.toFixed(2)}% {sd.remarks}
             </Badge>
         </>
     );
