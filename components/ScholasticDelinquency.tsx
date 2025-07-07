@@ -13,7 +13,7 @@ export default async function ScholasticDelinquency(props: {
     } else if (sd.remarks == "Probation") {
         severity = "bg-purple-500";
     } else if (sd.remarks == "Dismissal") {
-        severity = "bg-red-600 animate-bounce scale-[1.2]";
+        severity = "bg-red-600";
     }
 
     return (

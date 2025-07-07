@@ -10,7 +10,6 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -37,6 +36,7 @@ import {
 } from "@/components/ui/table";
 import { Student } from "@/types";
 import { useEffect, useState } from "react";
+import SchoolYearSelector from "./SchoolYearSelector";
 
 // props: { curricula: Curriculum[] }
 export default function SubjectStudents() {
@@ -408,19 +408,10 @@ export default function SubjectStudents() {
                     </Card>
                 </div>
                 <div className="w-1/4">
-                    <Card className="shadow-none border-0">
-                        <CardHeader>
-                            <CardTitle>School years</CardTitle>
-                        </CardHeader>
-                        <CardContent className="max-h-[400px] overflow-y-auto">
-                            <Button
-                                onClick={() => handleSearchAction(current_sy)}
-                                className=""
-                            >
-                                {current_sy}
-                            </Button>
-                        </CardContent>
-                    </Card>
+                    <SchoolYearSelector
+                        current_sy={selected_sy}
+                        onSySelect={(sy: string) => handleSearchAction(sy)}
+                    />
                 </div>
             </div>
             {/* {JSON.stringify(subject_students)} */}

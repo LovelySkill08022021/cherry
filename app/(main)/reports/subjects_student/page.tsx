@@ -1,9 +1,3 @@
-import {
-    getPrereqTreeDepsData,
-    getStudentGrades,
-} from "@/actions/server_utils";
-import PrerequisiteTreeChart from "@/components/PrerequisiteTreeChart";
-import { Suspense } from "react";
 import SubjectStudents from "./server-components/SubjectStudents";
 
 export default async function ReportsPage() {
@@ -19,21 +13,10 @@ export default async function ReportsPage() {
     // } else {
     //     current_sy = `SY ${year}-${year + 1}`;
     // }
-    const deps = await getPrereqTreeDepsData(7);
-    const all_grades = await getStudentGrades(5);
 
     return (
         <>
             {/* {JSON.stringify(all_grades)} */}
-            <Suspense fallback={"Loading"}>
-                <div className="h-screen">
-                    <PrerequisiteTreeChart
-                        grades={all_grades}
-                        subject_id={55}
-                        tree_deps_data={deps}
-                    />
-                </div>
-            </Suspense>
 
             <SubjectStudents />
 

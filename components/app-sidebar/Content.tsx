@@ -40,7 +40,7 @@ export default function Content() {
         },
         {
             title: "Reports",
-            url: "/reports",
+            url: "/reports/subjects_student",
             icon: Flag,
         },
     ];
@@ -54,7 +54,8 @@ export default function Content() {
                             <SidebarMenuItem key={item.title}>
                                 <SidebarMenuButton
                                     className={`transition duration-[100ms] ${
-                                        pathname.includes(item.url)
+                                        pathname.split("/")[1] ==
+                                        item.url.split("/")[1]
                                             ? "bg-[#ca254f] text-white hover:text-white hover:bg-[#ca254f]"
                                             : "hover:bg-[#ffe1b6]"
                                     }`}
